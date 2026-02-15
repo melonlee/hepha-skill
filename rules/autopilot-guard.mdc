@@ -1,0 +1,82 @@
+---
+description: Guardrails for iterative autopilot coding loops with mandatory check/review gates, bounded change scope, and safe commit policy.
+alwaysApply: true
+---
+
+# Autopilot Guard
+
+This rule applies only when the user explicitly requests autopilot, autonomous loop, or iterative unattended execution.
+
+## Loop Contract
+
+When autopilot is active, enforce this sequence:
+
+1. plan
+2. execute
+3. check
+4. review
+5. commit
+
+Do not skip or reorder phases.
+
+## Scope Boundaries Per Loop
+
+- Target one smallest ready task only.
+- Prefer no more than 3 files changed in a loop.
+- If scope grows unexpectedly, stop and re-plan into smaller tasks.
+- Avoid touching unrelated modules.
+
+## Mandatory Evidence
+
+Before commit, evidence must exist for:
+
+1. plan rationale
+2. check results
+3. review outcomes
+
+Record evidence in `.autopilot/progress.md`.
+
+## Research Requirement
+
+For technical choices or uncertainty:
+
+- Perform live research using web/GitHub and official docs.
+- Compare at least two options.
+- Log decision and tradeoffs in `.autopilot/decision-log.md`.
+
+## Check Gate
+
+If relevant checks fail:
+
+- fix first
+- rerun checks
+- do not commit until checks pass
+
+## Review Gate
+
+For UI or interaction-impacting changes:
+
+- run browser-based validation (MCP browser and/or Playwright)
+- verify critical user path and visible outcomes
+- no commit without passing review
+
+## Commit Safety
+
+- One loop corresponds to one commit.
+- Use conventional commit format.
+- No empty commits.
+- Do not commit secrets or sensitive credentials.
+
+## Stop Conditions
+
+Stop autopilot and report status if:
+
+1. same task fails twice consecutively
+2. unresolved blocker prevents ready tasks
+3. critical validation tooling is unavailable
+
+Include:
+
+- blocker details
+- attempted actions
+- proposed next step
