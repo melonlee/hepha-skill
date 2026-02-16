@@ -16,6 +16,48 @@ For each task, define:
 - `risk`: `low | medium | high`
 - `files_hint`: expected files/modules
 
+### YAML Format Example
+
+```yaml
+# .autopilot/backlog.md example
+tasks:
+  - id: TASK-001
+    title: "Create user authentication API endpoint"
+    state: todo
+    depends_on: []
+    acceptance:
+      - "POST /api/auth/login returns JWT token on valid credentials"
+      - "Returns 401 on invalid credentials"
+    risk: medium
+    files_hint:
+      - "src/api/auth.ts"
+      - "src/middleware/auth.ts"
+
+  - id: TASK-002
+    title: "Implement login form UI"
+    state: todo
+    depends_on: [TASK-001]
+    acceptance:
+      - "Login form renders with email and password fields"
+      - "Form submits to /api/auth/login"
+      - "Stores JWT token in localStorage on success"
+    risk: low
+    files_hint:
+      - "src/components/LoginForm.tsx"
+```
+
+### Validation Checklist
+
+Before executing any task, verify:
+
+- [ ] All tasks have unique `id` values
+- [ ] All `state` values are valid (todo|doing|blocked|done)
+- [ ] All `depends_on` reference existing task IDs
+- [ ] No circular dependencies exist (A depends on B, B depends on A)
+- [ ] All `acceptance` criteria are testable
+- [ ] All `risk` values are valid (low|medium|high)
+- [ ] At least one task is in ready state (todo + all dependencies satisfied)
+
 ## Decomposition Rules
 
 1. Prefer vertical slices that can be tested and committed independently.

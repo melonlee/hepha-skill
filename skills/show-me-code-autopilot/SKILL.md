@@ -35,23 +35,58 @@ If the user did not explicitly request autopilot, do not force this mode.
 
 ## Required Working Artifacts
 
-Create and maintain these files:
+Create and maintain these files in the project's `.autopilot/` directory:
 
 - `.autopilot/backlog.md` - task graph and states (`todo`, `doing`, `blocked`, `done`)
 - `.autopilot/progress.md` - per-loop execution log and evidence
 - `.autopilot/decision-log.md` - research and technical decisions
 
-If these files do not exist, create them before the first loop.
+**Templates**: Use the template files from `templates/` in this skill directory as starting points:
+- `templates/backlog.md.template`
+- `templates/progress.md.template`
+- `templates/decision-log.md.template`
+
+If working files do not exist, copy from templates or create them before the first loop.
 
 ## Loop Protocol
 
 Execute the following phases in order for each loop.
 
-### 1) PLAN
+### 1) PLAN (Enhanced)
 
 Goal: pick exactly one ready sub-task from the backlog.
 
 Steps:
+
+**Step 0.5 - Schema Validation (execute every PLAN):**
+
+Verify each task in backlog.md contains:
+- ✅ `id` (format: TASK-XXX or numeric)
+- ✅ `title` (action statement)
+- ✅ `state` (todo|doing|blocked|done)
+- ✅ `depends_on` (array, can be empty)
+- ✅ `acceptance` (testable pass conditions)
+- ✅ `risk` (low|medium|high)
+- ✅ `files_hint` (expected files, optional)
+
+Missing fields → complete before continuing
+Circular dependencies → detect and report error
+
+**Step 0 - Auto-Decomposition (if backlog.md missing or empty):**
+
+1. Analyze original requirement to identify core functional modules
+2. Apply decomposition patterns (see `references/decomposition-patterns.md`):
+   - Vertical slicing: split by user value path (UI → API → Data)
+   - Risk-first: high-risk dependencies first
+   - Independence: each task testable and committable separately
+3. Generate task graph:
+   - Assign unique ID to each sub-task (TASK-001, TASK-002...)
+   - Identify dependencies (depends_on)
+   - Assess risk level (low/medium/high)
+   - Define acceptance criteria (acceptance)
+4. Output to `.autopilot/backlog.md`
+
+**Step 1 - Normalize and Build Task Graph:**
 
 1. Normalize current requirement into:
    - Goal
@@ -67,23 +102,29 @@ Steps:
    - expected files
    - expected checks
    - expected browser validation path
+   - Update progress visualization section
 
-### 2) RESEARCH (required for tech choices and uncertainty)
+### 2) RESEARCH (explicit trigger conditions)
 
 Goal: make informed decisions with live evidence.
 
-When to run:
+**Decision Matrix - Research Required?**
 
-- introducing a new library/framework/tool
-- architecture-level change
-- uncertain implementation approach
-- browser automation strategy decisions
+| Scenario Category | Specific Situation | Research Required |
+|------------------|-------------------|-------------------|
+| New Technology | Using library/framework not in project | ✅ Yes |
+| Architecture Change | Affects module boundaries or data flow | ✅ Yes |
+| Implementation Uncertainty | 2+ viable options with >30% difference | ✅ Yes |
+| Tool Selection | MCP/Playwright/Puppeteer/etc. choice | ✅ Yes |
+| CRUD Operations | Standard CRUD | ❌ No |
+| Bug Fixes | Clear error fix | ❌ No |
+| Style Adjustments | CSS/style class modifications | ❌ No |
 
-Minimum research quality bar:
+**Research Quality Requirements:**
 
-1. Compare at least 2 options.
-2. Prefer official docs and source repositories.
-3. Record why selected option is better for current constraints.
+1. Compare at least 2 options
+2. Prefer official documentation and source code
+3. Record: option summary → evidence links → tradeoffs → decision rationale
 
 Record in `.autopilot/decision-log.md`:
 
@@ -219,3 +260,6 @@ Use this starter format to begin a run:
 
 - Planning details: `references/planning_task-decomposition.md`
 - Quality gates: `references/validation_quality-gates.md`
+- Decomposition patterns: `references/decomposition-patterns.md`
+- Progress template: `references/progress-template.md`
+- Working file templates: `templates/backlog.md.template`, `templates/progress.md.template`, `templates/decision-log.md.template`
