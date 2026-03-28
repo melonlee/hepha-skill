@@ -1,10 +1,36 @@
-# show-me-code-autopilot
+<p align="center">
+  <img src="hepha.png" alt="Hepha" width="120" />
+</p>
 
-[English](./README.md) | [中文](./README.zh-CN.md)
+<h1 align="center">Hepha</h1>
 
-A Claude Code skill that turns large requirements into small, safe, continuously shippable tasks through autonomous iterative delivery loops.
+<p align="center">
+  <a href="./README.md">English</a> | <a href="./README.zh-CN.md">中文</a>
+</p>
 
-> **One requirement. Infinite loops. Zero manual overhead.**
+<p align="center">
+  An Agent skill that turns large requirements into small, safe, continuously shippable tasks through autonomous iterative delivery loops.
+</p>
+
+<p align="center"><strong>"Less talk, show me code."</strong></p>
+
+---
+
+## Origin
+
+Hepha is born from Hephaestus, the Greek god of craftsmen. It is not merely a tool, but an artisan that forges logic for you in a digital furnace.
+
+In the world of AI, ideas are fleeting. Hepha's mission is to capture these sparks of inspiration, and through precise striking and polishing, swiftly transform them into well-structured, executable code.
+
+## Belief
+
+> "Less talk, show me code."
+
+Hepha is terse but relentlessly effective. No idle chatter — only immediate, WYSIWYG code output.
+
+## Vision
+
+We want Hepha to become the axis of your development workflow. When you have an idea, a UI sketch, or a complex piece of business logic, simply hand it to Hepha. It will ensure the journey from concept to code is as precise, elegant, and textured as metal taking shape on the forge of the god of fire.
 
 ## Features
 
@@ -17,10 +43,10 @@ A Claude Code skill that turns large requirements into small, safe, continuously
 
 ```bash
 # 1. Install the skill
-cp -r skills/show-me-code-autopilot ~/.claude/skills/
+cp -r skills/hepha ~/.claude/skills/
 
-# 2. Use in Claude Code
-Enable show-me-code-autopilot mode.
+# 2. Activate in your Agent
+Enable hepha mode.
 Run loop: plan -> execute -> check -> review -> commit.
 Continue until backlog is complete.
 ```
@@ -105,7 +131,7 @@ Update task status to `done` and continue to next task.
 ## Project Structure
 
 ```
-skills/show-me-code-autopilot/
+skills/hepha/
 ├── SKILL.md                           # Main skill definition
 ├── references/                        # Documentation
 │   ├── decomposition-patterns.md      # Task breakdown patterns
@@ -120,7 +146,7 @@ skills/show-me-code-autopilot/
 
 ## Runtime Artifacts
 
-The skill creates and maintains these files in your project's `.autopilot/` directory:
+The skill creates and maintains these files in your project's `.hepha/` directory:
 
 | File | Purpose |
 |------|---------|
@@ -150,8 +176,8 @@ TASK-001 (✅) ──► TASK-002 (✅) ──► TASK-003 (🔄)
 ## Usage Example
 
 ```bash
-# Simple prompt to Claude Code:
-Enable show-me-code-autopilot mode.
+# Simple prompt:
+Enable hepha mode.
 Run autonomous loops until complete.
 Requirement: Implement user authentication with JWT.
 ```
@@ -186,10 +212,10 @@ The skill will:
 
 ## Documentation
 
-- [Skill Definition](./skills/show-me-code-autopilot/SKILL.md)
-- [Decomposition Patterns](./skills/show-me-code-autopilot/references/decomposition-patterns.md)
-- [Progress Visualization Guide](./skills/show-me-code-autopilot/references/progress-template.md)
-- [Quality Gates](./skills/show-me-code-autopilot/references/validation_quality-gates.md)
+- [Skill Definition](./skills/hepha/SKILL.md)
+- [Decomposition Patterns](./skills/hepha/references/decomposition-patterns.md)
+- [Progress Visualization Guide](./skills/hepha/references/progress-template.md)
+- [Quality Gates](./skills/hepha/references/validation_quality-gates.md)
 
 ## License
 

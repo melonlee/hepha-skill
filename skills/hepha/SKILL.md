@@ -1,11 +1,11 @@
 ---
-name: show-me-code-autopilot
-description: Runs autonomous iterative delivery loops for coding tasks using plan -> execute -> check -> review -> commit. Use when the user asks for autopilot loop execution, unattended small-step implementation, continuous self-planning, automated commits, tech-option research via web/GitHub, and browser-based validation with MCP or Playwright.
+name: hepha
+description: Runs autonomous iterative delivery loops for coding tasks using plan -> execute -> check -> review -> commit. Use when the user asks for hepha mode, autopilot loop execution, unattended small-step implementation, continuous self-planning, automated commits, tech-option research via web/GitHub, and browser-based validation with MCP or Playwright.
 context: fork
 agent: Explore
 ---
 
-# Show Me Code Autopilot
+# Hepha
 
 ## Purpose
 
@@ -19,11 +19,11 @@ Keep looping with minimal user intervention until the backlog is done or a stop 
 
 Activate only when the user explicitly asks for:
 
-- autopilot / autonomous loop / unattended iteration
+- hepha / autopilot / autonomous loop / unattended iteration
 - continuous plan-execute-check-review-commit flow
 - small-step commits until a larger requirement is completed
 
-If the user did not explicitly request autopilot, do not force this mode.
+If the user did not explicitly request hepha, do not force this mode.
 
 ## Non-Negotiable Operating Rules
 
@@ -239,7 +239,7 @@ Then generate a final completion summary:
 - risk notes
 - follow-up suggestions
 
-## Communication Style During Autopilot
+## Communication Style During Hepha
 
 - Keep user updates brief and frequent.
 - Do not ask for confirmation every loop.
@@ -249,7 +249,7 @@ Then generate a final completion summary:
 
 Use this starter format to begin a run:
 
-1. Enable show-me-code-autopilot mode.
+1. Enable hepha mode.
 2. Run loop: plan -> execute -> check -> review -> commit.
 3. Perform web/GitHub research before technical choices.
 4. For UI flows, perform browser-based validation.

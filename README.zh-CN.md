@@ -1,10 +1,36 @@
-# show-me-code-autopilot
+<p align="center">
+  <img src="hepha.png" alt="Hepha" width="120" />
+</p>
 
-[English](./README.md) | [中文](./README.zh-CN.md)
+<h1 align="center">Hepha</h1>
 
-一个 Claude Code 技能，通过自主迭代交付循环将大需求拆解为小而安全、可持续交付的任务。
+<p align="center">
+  <a href="./README.md">English</a> | <a href="./README.zh-CN.md">中文</a>
+</p>
 
-> **一个需求。无限循环。零人工开销。**
+<p align="center">
+  一个 Agent 技能，通过自主迭代交付循环将大需求拆解为小而安全、可持续交付的任务。
+</p>
+
+<p align="center"><strong>"少废话，看代码。"</strong></p>
+
+---
+
+## 起源
+
+Hepha 脱胎于希腊工匠之神 Hephaestus。它不再是单纯的工具，而是一个在数字熔炉中为你锻造逻辑的工匠。
+
+在 AI 的世界里，想法往往转瞬即逝。Hepha 的使命是捕捉这些灵感的火花，通过精准的打击（Striking）和打磨，迅速将其转化为结构严谨、可执行的代码。
+
+## 信条
+
+> "少废话，看代码。"
+
+Hepha 沉默寡言，但执行力极强。它不进行无谓的闲聊，只专注于为你提供即时的、所见即所得的（WYSIWYG）代码产出。
+
+## 愿景
+
+我们希望 Hepha 成为你开发工作流中的"轴心"（Axis）。当你拥有一个想法、一个 UI 草图或一段复杂的业务逻辑时，只需将其交给 Hepha。它将确保从构思到代码的跨越过程就像金属在火神铁砧上成型一样，精准、优雅且富有质感。
 
 ## 核心功能
 
@@ -17,10 +43,10 @@
 
 ```bash
 # 1. 安装技能
-cp -r skills/show-me-code-autopilot ~/.claude/skills/
+cp -r skills/hepha ~/.claude/skills/
 
-# 2. 在 Claude Code 中使用
-启用 show-me-code-autopilot 模式。
+# 2. 在你的 Agent 中启用
+启用 hepha 模式。
 运行循环：plan -> execute -> check -> review -> commit。
 持续直到 backlog 完成。
 ```
@@ -105,7 +131,7 @@ flowchart LR
 ## 项目结构
 
 ```
-skills/show-me-code-autopilot/
+skills/hepha/
 ├── SKILL.md                           # 主技能定义
 ├── references/                        # 文档
 │   ├── decomposition-patterns.md      # 任务拆解模式
@@ -120,7 +146,7 @@ skills/show-me-code-autopilot/
 
 ## 运行时产物
 
-技能在项目的 `.autopilot/` 目录中创建并维护以下文件：
+技能在项目的 `.hepha/` 目录中创建并维护以下文件：
 
 | 文件 | 用途 |
 |------|------|
@@ -150,8 +176,8 @@ TASK-001 (✅) ──► TASK-002 (✅) ──► TASK-003 (🔄)
 ## 使用示例
 
 ```bash
-# 向 Claude Code 发送简单提示：
-启用 show-me-code-autopilot 模式。
+# 发送简单提示：
+启用 hepha 模式。
 运行自主循环直到完成。
 需求：实现基于 JWT 的用户认证。
 ```
@@ -186,10 +212,10 @@ TASK-001 (✅) ──► TASK-002 (✅) ──► TASK-003 (🔄)
 
 ## 文档
 
-- [技能定义](./skills/show-me-code-autopilot/SKILL.md)
-- [拆解模式](./skills/show-me-code-autopilot/references/decomposition-patterns.md)
-- [进度可视化指南](./skills/show-me-code-autopilot/references/progress-template.md)
-- [质量门槛](./skills/show-me-code-autopilot/references/validation_quality-gates.md)
+- [技能定义](./skills/hepha/SKILL.md)
+- [拆解模式](./skills/hepha/references/decomposition-patterns.md)
+- [进度可视化指南](./skills/hepha/references/progress-template.md)
+- [质量门槛](./skills/hepha/references/validation_quality-gates.md)
 
 ## 许可证
 

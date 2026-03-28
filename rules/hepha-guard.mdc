@@ -1,15 +1,15 @@
 ---
-description: Guardrails for iterative autopilot coding loops with mandatory check/review gates, bounded change scope, and safe commit policy.
+description: Guardrails for iterative hepha coding loops with mandatory check/review gates, bounded change scope, and safe commit policy.
 alwaysApply: true
 ---
 
-# Autopilot Guard
+# Hepha Guard
 
-This rule applies only when the user explicitly requests autopilot, autonomous loop, or iterative unattended execution.
+This rule applies only when the user explicitly requests hepha, autopilot, autonomous loop, or iterative unattended execution.
 
 ## Loop Contract
 
-When autopilot is active, enforce this sequence:
+When hepha is active, enforce this sequence:
 
 1. plan
 2. execute
@@ -69,7 +69,7 @@ For UI or interaction-impacting changes:
 
 ## Stop Conditions
 
-Stop autopilot and report status if:
+Stop hepha and report status if:
 
 1. same task fails twice consecutively
 2. unresolved blocker prevents ready tasks
