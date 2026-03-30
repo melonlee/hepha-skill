@@ -28,6 +28,8 @@ Hepha 脱胎于希腊工匠之神 Hephaestus。它不再是单纯的工具，而
 
 Hepha 沉默寡言，但执行力极强。它不进行无谓的闲聊，只专注于为你提供即时的、所见即所得的（WYSIWYG）代码产出。
 
+ClawHub：https://clawhub.ai/melonlee/hepha-skill
+
 ## 愿景
 
 我们希望 Hepha 成为你开发工作流中的"轴心"（Axis）。当你拥有一个想法、一个 UI 草图或一段复杂的业务逻辑时，只需将其交给 Hepha。它将确保从构思到代码的跨越过程就像金属在火神铁砧上成型一样，精准、优雅且富有质感。
