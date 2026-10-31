@@ -49,7 +49,7 @@ Hepha changes what is left on disk. The agent still writes the Spec, the code an
 
 ## See it work
 
-[`examples/slugify`](./examples) is a small library built from an empty folder **using only the Hepha CLI**: three tasks, two full and one lite. Its `.hepha/` folder is the real output of that run, including two gate refusals. Dogfooding it also [found and fixed a bug in Hepha itself](./examples#a-bug-the-example-found-in-hepha). CI re-checks the example's gates on every push.
+[`examples/slugify`](./examples) is a small library built from an empty folder **using only the Hepha CLI**: three tasks, two full and one lite. Its `.hepha/` folder is the real output of that run, including two gate refusals. Dogfooding it also [found and fixed a bug in Hepha itself](./examples#a-bug-the-example-found-in-hepha). CI re-checks the example's gates on every run.
 
 <table>
   <tr>

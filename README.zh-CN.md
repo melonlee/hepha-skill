@@ -49,7 +49,7 @@ Hepha 改变的是跑完之后磁盘上留下了什么。Spec、代码和记录�
 
 ## 实际效果
 
-[`examples/slugify`](./examples) 是一个从空目录开始、**只用 Hepha CLI** 完成的小型库：3 个任务，2 个 full、1 个 lite。它的 `.hepha/` 目录就是那次运行的真实产物，里面还保留了两次门禁拒绝。跑这个示例时还[发现并修复了 Hepha 自身的一个 bug](./examples#a-bug-the-example-found-in-hepha)。CI 每次推送都会重新校验示例的全部门禁。
+[`examples/slugify`](./examples) 是一个从空目录开始、**只用 Hepha CLI** 完成的小型库：3 个任务，2 个 full、1 个 lite。它的 `.hepha/` 目录就是那次运行的真实产物，里面还保留了两次门禁拒绝。跑这个示例时还[发现并修复了 Hepha 自身的一个 bug](./examples#a-bug-the-example-found-in-hepha)。CI 每次运行都会重新校验示例的全部门禁。
 
 <table>
   <tr>
