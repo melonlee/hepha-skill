@@ -72,12 +72,29 @@ try {
       print({ ok: true, ...result });
       break;
     }
+    case "version":
+    case "--version":
+    case "-v": {
+      process.stdout.write(`${readVersion()}\n`);
+      break;
+    }
     case "help":
     default:
-      process.stdout.write(`Hepha CLI\n\nCommands:\n  init --root . --requirement \"...\" [--person NAME]\n  validate --root . [--allow-empty]\n  record-check --root . --task TASK-001 --phase red|green|regression|lint|build|browser --command \"...\"\n  record-review --root . --task TASK-001 --type spec|code|human --status passed|failed|changes-requested [--reviewer NAME]\n  transition --root . --task TASK-001 --to doing|review|done|blocked|skipped\n  publish-asset --root . --file .hepha/wiki/candidates/PAT-001.md [--reviewer NAME]\n  build-index --root .\n  sync-personal --root . [--wiki-root /path/to/personal-wiki]\n`);
+      process.stdout.write(`Hepha CLI ${readVersion()}\n\nUsage: hepha <command> [options]   (or: node hepha-cli.js <command> ...)\n\nCommands:\n  init --root . --requirement \"...\" [--person NAME]\n  validate --root . [--allow-empty]\n  record-check --root . --task TASK-001 --phase red|green|regression|lint|build|browser --command \"...\"\n  record-review --root . --task TASK-001 --type spec|code|human --status passed|failed|changes-requested [--reviewer NAME]\n  transition --root . --task TASK-001 --to doing|review|done|blocked|skipped\n  publish-asset --root . --file .hepha/wiki/candidates/PAT-001.md [--reviewer NAME]\n  build-index --root .\n  sync-personal --root . [--wiki-root /path/to/personal-wiki]\n  version\n\nLocal review UI: hepha-server --root . [--port 3000]   (or: node hepha-server.js ...)\n`);
   }
 } catch (error) {
   fail(error.message);
+}
+
+function readVersion() {
+  // Works both from a git checkout and from the installed npm package.
+  // A copied skill folder has no package.json of its own, so verify the package name.
+  try {
+    const pkg = require("../../../package.json");
+    return pkg.name === "hepha-skill" ? pkg.version : "unknown";
+  } catch (_) {
+    return "unknown";
+  }
 }
 
 function parseArgs(items) {

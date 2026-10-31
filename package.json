@@ -1,8 +1,36 @@
 {
   "name": "hepha-skill",
-  "version": "2.0.0",
-  "private": true,
-  "description": "Hepha autonomous delivery skill runtime and local personal wiki",
+  "version": "2.1.0",
+  "description": "Agent skill + zero-dependency CLI that turns large requirements into small, test-driven, reviewed tasks with an evidence trail and a personal engineering Wiki.",
+  "keywords": [
+    "agent-skill",
+    "claude-code",
+    "codex",
+    "tdd",
+    "spec-driven-development",
+    "ai-coding",
+    "code-review",
+    "knowledge-base"
+  ],
+  "homepage": "https://github.com/melonlee/hepha-skill#readme",
+  "bugs": {
+    "url": "https://github.com/melonlee/hepha-skill/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melonlee/hepha-skill.git"
+  },
+  "license": "MIT",
+  "author": "melonlee",
+  "bin": {
+    "hepha": "skills/hepha/scripts/hepha-cli.js",
+    "hepha-server": "skills/hepha/scripts/hepha-server.js"
+  },
+  "files": [
+    "skills/",
+    "rules/",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "test": "node --test tests/*.test.js"
   },

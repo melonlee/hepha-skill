@@ -54,3 +54,16 @@ test("CLI drives a task through TDD, reviews, summary and asset gates", () => {
   assert.equal(finalBacklog.tasks[0].state, "done");
   assert.ok(fs.existsSync(path.join(root, ".hepha", "index.json")));
 });
+
+test("CLI reports the package version and is runnable as an npm bin", () => {
+  const pkg = require("../package.json");
+  const result = spawnSync(process.execPath, [cli, "version"], { encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), pkg.version);
+  assert.equal(pkg.bin.hepha, "skills/hepha/scripts/hepha-cli.js");
+  assert.equal(pkg.bin["hepha-server"], "skills/hepha/scripts/hepha-server.js");
+  for (const bin of Object.values(pkg.bin)) {
+    const source = fs.readFileSync(path.resolve(__dirname, "..", bin), "utf8");
+    assert.match(source, /^#!\/usr\/bin\/env node\n/);
+  }
+});
