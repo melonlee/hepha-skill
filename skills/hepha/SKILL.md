@@ -1,6 +1,6 @@
 ---
 name: hepha
-description: 以中文优先的 Spec、TDD、角色隔离审查和个人 Wiki 沉淀来持续交付代码。仅在用户明确要求 Hepha、autopilot、自主循环、小步持续提交、个人工程 Wiki、任务可视化或无人值守迭代时使用；普通单次编码请求不要隐式启用。
+description: "Spec-driven, test-first delivery loop for large coding requirements: splits work into small tasks gated by real RED/GREEN evidence, separate Spec and code reviews, a dated Summary and a personal engineering Wiki, with a local review page. Use only when the user explicitly asks for Hepha, autopilot, an autonomous delivery loop, small continuous commits, task visualization or a personal engineering Wiki; do not trigger implicitly for ordinary one-off coding requests. 中文：以 Spec、TDD、双审查和个人 Wiki 沉淀持续交付；仅在用户明确要求 Hepha、autopilot、自主循环、小步持续提交、个人工程 Wiki 或任务可视化时使用，普通单次编码请求不要隐式启用。"
 ---
 
 # Hepha
