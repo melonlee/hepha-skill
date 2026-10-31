@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "task_id": "TASK-003",
+  "checks": [
+    {
+      "phase": "red",
+      "command": "node --test test/slugify.test.js",
+      "exit_code": 1,
+      "output": "✔ AC-001 turns words and punctuation into a lowercase hyphenated slug (0.777125ms)\n✔ AC-002 collapses separator runs and trims leading/trailing hyphens (0.073458ms)\n✔ AC-003 rejects non-string input with a TypeError (0.224042ms)\n✔ AC-004 returns an empty string when nothing slug-worthy remains (0.059416ms)\n✔ AC-005 folds accented Latin letters to their ASCII base letter (0.2575ms)\n✔ AC-006 does not transliterate non-Latin scripts (0.520875ms)\n✖ AC-007 caps the slug at maxLength without a trailing hyphen (0.562709ms)\n✖ AC-008 rejects maxLength that is not a positive integer (0.110708ms)\nℹ tests 8\nℹ suites 0\nℹ pass 6\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 43.342458\n\n✖ failing tests:\n\ntest at test/slugify.test.js:38:1\n✖ AC-007 caps the slug at maxLength without a trailing hyphen (0.562709ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'small-steps-ship-safely'\n  - 'small-steps'\n                ^\n  \n      at TestContext.<anonymous> (/Users/melon/Desktop/vibecoding/hepha-skill/examples/slugify/test/slugify.test.js:39:10)\n      at Test.runInAsyncScope (node:async_hooks:214:14)\n      at Test.run (node:internal/test_runner/test:1106:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)\n      at Test.postRun (node:internal/test_runner/test:1235:19)\n      at Test.run (node:internal/test_runner/test:1163:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'small-steps-ship-safely',\n    expected: 'small-steps',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at test/slugify.test.js:43:1\n✖ AC-008 rejects maxLength that is not a positive integer (0.110708ms)\n  AssertionError [ERR_ASSERTION]: Missing expected exception (RangeError).\n      at TestContext.<anonymous> (/Users/melon/Desktop/vibecoding/hepha-skill/examples/slugify/test/slugify.test.js:45:12)\n      at Test.runInAsyncScope (node:async_hooks:214:14)\n      at Test.run (node:internal/test_runner/test:1106:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)\n      at Test.postRun (node:internal/test_runner/test:1235:19)\n      at Test.run (node:internal/test_runner/test:1163:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    operator: 'throws',\n    diff: 'simple'\n  }\n",
+      "recorded_at": "2026-10-31T15:23:42.830Z"
+    },
+    {
+      "phase": "green",
+      "command": "node --test test/slugify.test.js",
+      "exit_code": 0,
+      "output": "✔ AC-001 turns words and punctuation into a lowercase hyphenated slug (0.77875ms)\n✔ AC-002 collapses separator runs and trims leading/trailing hyphens (0.068542ms)\n✔ AC-003 rejects non-string input with a TypeError (0.212834ms)\n✔ AC-004 returns an empty string when nothing slug-worthy remains (0.0555ms)\n✔ AC-005 folds accented Latin letters to their ASCII base letter (0.236083ms)\n✔ AC-006 does not transliterate non-Latin scripts (0.121084ms)\n✔ AC-007 caps the slug at maxLength without a trailing hyphen (0.103041ms)\n✔ AC-008 rejects maxLength that is not a positive integer (0.101333ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 42.526792\n",
+      "recorded_at": "2026-10-31T15:23:54.310Z"
+    }
+  ],
+  "reviews": {
+    "code": {
+      "status": "passed",
+      "reviewer": "claude-code-reviewer",
+      "notes": "Validation happens before any work; truncation trims only trailing hyphens so 'small-steps-' becomes 'small-steps'. Lite task: no regression/spec review/summary required by mode.",
+      "recorded_at": "2026-10-31T15:23:54.382Z"
+    },
+    "human": {
+      "status": "passed",
+      "reviewer": "melonlee (recorded by agent)",
+      "notes": "Sample run: an AI agent executed this loop and recorded the approval step itself. In a real project the owner records this review.",
+      "recorded_at": "2026-10-31T15:23:54.411Z"
+    }
+  },
+  "browser": [],
+  "updated_at": "2026-10-31T15:23:54.412Z",
+  "task_contract_hash": "3855f6df90b4cbe99b73b94f163632feec94b565aab7fc713c9901b0bb0a394b",
+  "contract_recorded_at": "2026-10-31T15:23:42.712Z"
+}

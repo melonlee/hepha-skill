@@ -36,7 +36,7 @@
 
 ### TASK-003：Add maxLength option without a trailing hyphen
 
-- 状态：`todo`
+- 状态：`done`
 - 风险：`low`
 - 模式：`lite`
 - Spec：SPEC-001

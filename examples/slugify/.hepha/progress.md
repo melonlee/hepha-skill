@@ -26,3 +26,17 @@ Progress: [██████░░░░] 2/3
 - Reviews passed; PAT-001 published (asset policy `required`).
 - Finding while dogfooding: the published PAT-001 title showed `\\\\p{M}` — Hepha's frontmatter writer escaped backslashes that its reader never unescaped. Reported against the Hepha runtime.
 - Fixed upstream in `hepha-core.js` (`unquote` now reverses `quoteYaml` escaping, with a round-trip test); PAT-001's title line was corrected once and the index rebuilt.
+
+### Loop 3 — TASK-003 (lite) · done
+
+Progress: [██████████] 3/3
+
+- Lite mode: `risk: low`, `asset_policy: none`, so the gates are Spec refs + acceptance, RED, GREEN, code review and approval.
+- RED: AC-007 and AC-008 failed, the six earlier tests still passed.
+- GREEN: 8/8 pass. Code review passed. No summary or Wiki asset (lite).
+
+## Delivery summary
+
+- 3/3 tasks done: 2 full, 1 lite. 8 tests, all seen failing before passing.
+- 1 published pattern (PAT-001), 1 checklist candidate (CHK-001) waiting for review.
+- 1 runtime bug found and fixed in Hepha itself while dogfooding (frontmatter escaping).

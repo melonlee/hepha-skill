@@ -106,7 +106,7 @@
     {
       "id": "TASK-003",
       "title": "Add maxLength option without a trailing hyphen",
-      "state": "todo",
+      "state": "done",
       "mode": "lite",
       "depends_on": [
         "TASK-001"
@@ -141,7 +141,8 @@
       },
       "knowledge": {
         "asset_policy": "none"
-      }
+      },
+      "updated_at": "2026-10-31T15:23:54.442Z"
     }
   ]
 }

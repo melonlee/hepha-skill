@@ -33,3 +33,15 @@ test("AC-005 folds accented Latin letters to their ASCII base letter", () => {
 test("AC-006 does not transliterate non-Latin scripts", () => {
   assert.equal(slugify("你好"), "");
 });
+
+// TASK-003 (lite) / SC-005
+test("AC-007 caps the slug at maxLength without a trailing hyphen", () => {
+  assert.equal(slugify("Small steps ship safely", { maxLength: 12 }), "small-steps");
+  assert.equal(slugify("Small steps ship safely", { maxLength: 5 }), "small");
+});
+
+test("AC-008 rejects maxLength that is not a positive integer", () => {
+  for (const maxLength of [0, -1, 2.5, "10"]) {
+    assert.throws(() => slugify("text", { maxLength }), RangeError);
+  }
+});
