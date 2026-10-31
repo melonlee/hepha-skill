@@ -1,14 +1,62 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-31T15:15:52.544Z",
+  "generated_at": "2026-10-31T15:20:14.047Z",
   "metrics": {
-    "total": 0,
-    "by_status": {},
-    "by_type": {},
-    "by_project": {},
-    "top_tags": [],
-    "provenance_complete": 0,
+    "total": 1,
+    "by_status": {
+      "candidate": 1
+    },
+    "by_type": {
+      "checklist": 1
+    },
+    "by_project": {
+      "current-project": 1
+    },
+    "top_tags": [
+      {
+        "tag": "slug",
+        "count": 1
+      },
+      {
+        "tag": "testing",
+        "count": 1
+      },
+      {
+        "tag": "strings",
+        "count": 1
+      }
+    ],
+    "provenance_complete": 1,
     "provenance_completeness": 1
   },
-  "assets": []
+  "assets": [
+    {
+      "asset_id": "CHK-001",
+      "type": "checklist",
+      "title": "Edge cases to test for any slug function",
+      "status": "candidate",
+      "tags": [
+        "slug",
+        "testing",
+        "strings"
+      ],
+      "source_tasks": [
+        "TASK-001"
+      ],
+      "source_specs": [
+        "SPEC-001"
+      ],
+      "source_tests": [
+        "test/slugify.test.js"
+      ],
+      "source_commits": [
+        "self"
+      ],
+      "confidence": "verified",
+      "sensitivity": "personal",
+      "updated_at": "2026-10-31T15:20:13.836Z",
+      "file": "candidates/CHK-001.md",
+      "search_text": "edge cases to test for any slug function checklist slug testing strings # edge cases to test for any slug function ## conclusion a slug function looks trivial, but most bugs live in the same five places. write one test per item before writing the regex. ## checklist - [ ] punctuation between words (`hello, world!` → `hello-world`). - [ ] runs of mixed separators (`a -- _ b`) collapse to a single hyphen. - [ ] leading and trailing separators are trimmed — no `-hello-`. - [ ] input that contains nothing slug-worthy (`!!!`, `\"\"`) returns `\"\"`, not `-`. - [ ] non-string input throws instead of slugifying `\"null\"` or `\"42\"`. ## when it applies - any ascii slug for urls, file names, anchors or ids. ## when it does not - slugs that must preserve non-latin scripts — the checklist is still useful, but the expected outputs differ. ## source derived from task-001; every item corresponds to an assertion in `test/slugify.test.js` that was seen failing before it passed."
+    }
+  ]
 }

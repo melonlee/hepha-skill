@@ -1,6 +1,46 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-31T15:15:52.544Z",
-  "summaries": [],
-  "assets": []
+  "generated_at": "2026-10-31T15:20:14.047Z",
+  "summaries": [
+    {
+      "task_id": "TASK-001",
+      "title": "Core slugify: lowercase, hyphen separators, input validation",
+      "state": "review",
+      "date": "2026-10-31",
+      "person": "melonlee",
+      "commit": "self",
+      "file": "2026-10-31/melonlee/TASK-001.md",
+      "search_text": "core slugify: lowercase, hyphen separators, input validation # task-001: core slugify ## goal deliver the smallest useful `slugify(text)`: lowercase, every run of non-alphanumeric characters becomes one hyphen, no leading/trailing hyphen, and a `typeerror` for non-strings. non-goal for this task: accented letters (task-002) and length limits (task-003). ## acceptance trace | acceptance | scenario | test | result | |---|---|---|---| | ac-001 | sc-001 | `ac-001 turns words and punctuation into a lowercase hyphenated slug` | pass | | ac-002 | sc-002 | `ac-002 collapses separator runs and trims leading/trailing hyphens` | pass | | ac-003 | sc-003 | `ac-003 rejects non-string input with a typeerror` | pass | | ac-004 | edge case | `ac-004 returns an empty string when nothing slug-worthy remains` | pass | ## tdd evidence recorded by `hepha record-check` in `.hepha/evidence/task-001.json`. | phase | command | exit | meaning | |---|---|---:|---| | red | `node --test test/slugify.test.js` | 1 | 4/4 tests fail against a `not implemented` stub | | green | `node --test test/slugify.test.js` | 1 | first attempt ran before the implementation was saved; gate kept the task in `doing` | | regression | `npm test --silent` | 1 | same cause as above | | green | `node --test test/slugify.test.js` | 0 | 4/4 pass with the minimal implementation | | regression | `npm test --silent` | 0 | full example suite passes | ## what changed - `src/slugify.js`: type guard, `tolowercase()`, `/[^a-z0-9]+/g → \"-\"`, trim hyphens. - `test/slugify.test.js`: one test per acceptance criterion, named by ac id. - `package.json`: `npm test` runs the suite with the built-in runner. ## reviews - spec review (claude-spec-reviewer): passed — each ac maps to exactly one test. - code review (claude-code-reviewer): passed — notes that accented letters are currently treated as separators (`crème` → `cr-me`); that is task-002's scope. - human approval: recorded after this summary. - browser check: not applicable (library, no ui). ## asset candidate - policy: `candidate` - candidate: `.hepha/wiki/candidates/chk-001.md` — edge cases worth testing for any slug function. ## risks and follow-ups - non-ascii letters are dropped entirely until task-002 lands."
+    }
+  ],
+  "assets": [
+    {
+      "asset_id": "CHK-001",
+      "type": "checklist",
+      "title": "Edge cases to test for any slug function",
+      "status": "candidate",
+      "tags": [
+        "slug",
+        "testing",
+        "strings"
+      ],
+      "source_tasks": [
+        "TASK-001"
+      ],
+      "source_specs": [
+        "SPEC-001"
+      ],
+      "source_tests": [
+        "test/slugify.test.js"
+      ],
+      "source_commits": [
+        "self"
+      ],
+      "confidence": "verified",
+      "sensitivity": "personal",
+      "updated_at": "2026-10-31T15:20:13.836Z",
+      "file": "candidates/CHK-001.md",
+      "search_text": "edge cases to test for any slug function checklist slug testing strings # edge cases to test for any slug function ## conclusion a slug function looks trivial, but most bugs live in the same five places. write one test per item before writing the regex. ## checklist - [ ] punctuation between words (`hello, world!` → `hello-world`). - [ ] runs of mixed separators (`a -- _ b`) collapse to a single hyphen. - [ ] leading and trailing separators are trimmed — no `-hello-`. - [ ] input that contains nothing slug-worthy (`!!!`, `\"\"`) returns `\"\"`, not `-`. - [ ] non-string input throws instead of slugifying `\"null\"` or `\"42\"`. ## when it applies - any ascii slug for urls, file names, anchors or ids. ## when it does not - slugs that must preserve non-latin scripts — the checklist is still useful, but the expected outputs differ. ## source derived from task-001; every item corresponds to an assertion in `test/slugify.test.js` that was seen failing before it passed."
+    }
+  ]
 }
