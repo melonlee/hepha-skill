@@ -1,239 +1,295 @@
-# Hepha
-
 <p align="center">
-  <img src="hepha.png" alt="Hepha" width="200" />
+  <img src="docs/assets/brand/hepha-banner.png" alt="Hepha: big requirements in, small proven commits out" width="100%" />
 </p>
 
 <p align="center">
-  <a href="./README.md">English</a> | <a href="./README.zh-CN.md">中文</a>
+  <a href="https://github.com/melonlee/hepha-skill/actions/workflows/ci.yml"><img src="https://github.com/melonlee/hepha-skill/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/melonlee/hepha-skill/stargazers"><img src="https://img.shields.io/github/stars/melonlee/hepha-skill?style=social" alt="GitHub stars" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" /></a>
+  <img src="https://img.shields.io/badge/node-%E2%89%A518-339933" alt="Node >= 18" />
+  <img src="https://img.shields.io/badge/runtime%20deps-0-F26A2E" alt="Zero runtime dependencies" />
+  <img src="https://img.shields.io/badge/skill-Claude%20Code%20%7C%20Codex-1A1614" alt="Claude Code and Codex skill" />
 </p>
 
 <p align="center">
-
-[![Stars](https://img.shields.io/github/stars/melonlee/Hepha?style=social)](https://github.com/melonlee/Hepha/stargazers)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Claude Compatible](https://img.shields.io/badge/Claude%20Code-Ready-brightgreen)](https://docs.claude.com/claude-code)
-[![OpenClaw Skill](https://img.shields.io/badge/OpenClaw%20Skill-Enabled-purple)](https://clawhub.ai/melonlee/hepha-skill)
-
+  <strong>English</strong> · <a href="./README.zh-CN.md">简体中文</a>
 </p>
 
 <p align="center">
-  <strong>Turn large requirements into small, safe, continuously shippable tasks — with an evidence trail that becomes reusable personal engineering knowledge.</strong>
+  <b>Hepha is an agent skill plus a zero-dependency CLI. It breaks a large requirement into small tasks, and a task only counts as done when real test runs and separate reviews are on record.</b>
 </p>
 
 <p align="center">
-
-[Features](#features) · [Quick Start](#quick-start) · [How It Works](#how-it-works) · [Personal Wiki](#personal-wiki-and-asset-data) · [Local Review](#local-review-html) · [Documentation](#documentation)
-
+  <a href="#quick-start">Quick start</a> ·
+  <a href="./examples">Worked example</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#cli-reference">CLI</a> ·
+  <a href="#how-hepha-compares">Comparison</a> ·
+  <a href="#faq">FAQ</a>
 </p>
 
 ---
 
-## Why Hepha?
+## Why Hepha
 
-Hepha treats an AI coding skill as an executable engineering protocol, not a suggestion. It combines the Spec-driven and TDD discipline popularized by Superpowers with a local, searchable knowledge layer inspired by Hepha's original goals: content creation, collaboration, knowledge capture, retrieval, and one workspace.
+A long agent session leaves you with a big diff, a transcript and a confident "all tests pass". Afterwards, you can only check the diff and what the agent *said*.
 
-Every task follows:
+Hepha changes what is left on disk. The agent still writes the Spec, the code and the notes. The CLI runs your test commands and records the results, records the reviews, and refuses to move a task forward while evidence is missing.
+
+| After the run, can you check… | One long agent session | A Hepha run |
+|---|---|---|
+| …what behaviour was agreed? | The prompt, maybe | `specs/SPEC-*.md` with scenario IDs. Each task has Given/When/Then acceptance criteria, fingerprinted when work starts |
+| …that a test failed *before* the fix? | Only if it happened and you find it in the transcript | `evidence/TASK-*.json` holds the RED command, its non-zero exit code and output |
+| …that tests pass now? | The agent's statement | GREEN and regression records, plus `test_plan.commands` you can rerun |
+| …that Spec and code were reviewed? | Usually mixed into one pass, or skipped | Separate `spec`, `code` and `human` review records with reviewer and notes |
+| …which commit did what? | One large diff | One small commit per task, and assets linked Spec → Task → Test → Commit |
+| …what is worth reusing? | Buried in the transcript | A dated summary plus reviewed Wiki assets, searchable across projects |
+
+**What Hepha does not do:** it cannot judge whether a test is *meaningful* or a review was *thorough*. It proves that commands ran with the recorded results and that each review step was explicitly recorded. Treat it as an audit trail and a guard rail, not a substitute for judgement.
+
+## See it work
+
+[`examples/slugify`](./examples) is a small library built from an empty folder **using only the Hepha CLI**: three tasks, two full and one lite. Its `.hepha/` folder is the real output of that run, including two gate refusals. Dogfooding it also [found and fixed a bug in Hepha itself](./examples#a-bug-the-example-found-in-hepha). CI re-checks the example's gates on every push.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/assets/screenshots/review-index.png" alt="Overview: Wiki assets, candidates and task timeline" /><br/><sub><b>Overview</b>: artifacts, Wiki cards, candidate queue, timeline</sub></td>
+    <td width="50%"><img src="docs/assets/screenshots/review-task.png" alt="Task page: TDD checks and review status" /><br/><sub><b>Task</b>: recorded RED/GREEN/regression and spec/code/human reviews</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/assets/screenshots/review-asset.png" alt="Asset page with Spec, Task, Test, Commit lineage" /><br/><sub><b>Wiki asset</b>: lineage resolved to a real commit hash</sub></td>
+    <td width="50%"><img src="docs/assets/screenshots/review-search.png" alt="Full-text search across tasks and assets" /><br/><sub><b>Search</b>: across tasks, assets, tags and source IDs</sub></td>
+  </tr>
+</table>
+
+<sub>Screenshots of <code>hepha-server</code> running on <code>examples/slugify</code>. The UI labels are in Chinese; your content can be in any language.</sub>
+
+## Quick start
+
+**1. Install the skill**: clone once, then link it where your agent looks for skills.
+
+```bash
+git clone https://github.com/melonlee/hepha-skill.git
+cd hepha-skill
+
+# Claude Code: personal skill, available in all your projects
+mkdir -p ~/.claude/skills && ln -s "$PWD/skills/hepha" ~/.claude/skills/hepha
+
+# Codex: user-level skill
+mkdir -p ~/.agents/skills && ln -s "$PWD/skills/hepha" ~/.agents/skills/hepha
+```
+
+<details>
+<summary>Other options: project-level install, copying instead of linking, the guard rule</summary>
+
+- **Claude Code, one project only:** put the skill in the project's `.claude/skills/` and commit it so your team gets it too:
+  `mkdir -p .claude/skills && cp -R /path/to/hepha-skill/skills/hepha .claude/skills/hepha`
+- **Copy instead of symlink:** `cp -R skills/hepha ~/.claude/skills/hepha`. Claude Code also accepts symlinked skill folders in the personal and project locations.
+- **Guard rule (optional, recommended):** [`rules/hepha-guard.mdc`](./rules/hepha-guard.mdc) restates the hard stops in a short form. For Claude Code, copy it to `.claude/rules/hepha-guard.md`. For Cursor, copy it to `.cursor/rules/`. For Codex, paste it into `AGENTS.md`.
+- **Skill paths in the docs:** `<skill-root>` in `SKILL.md` means wherever you installed `skills/hepha`, e.g. `~/.claude/skills/hepha`.
+
+</details>
+
+**2. Ask your agent to run it.** The skill is never triggered implicitly. Invoke it explicitly: `/hepha` in Claude Code, `$hepha` in Codex.
+
+```text
+/hepha Build CSV export for the orders page.
+Use English for specs and summaries. Ask me before marking any task done.
+```
+
+The agent initialises `.hepha/`, writes the Spec and a validated backlog, then works one task per loop. It calls the CLI to record evidence and to request state changes.
+
+**3. Review what happened.**
+
+```bash
+node ~/.claude/skills/hepha/scripts/hepha-server.js --root . --port 3000   # open http://localhost:3000
+```
+
+The server is read-only. It binds to `127.0.0.1` by default.
+
+<details>
+<summary>Installing from npm (after the package is published)</summary>
+
+`package.json` already declares the `hepha` and `hepha-server` bins, and a tarball built with `npm pack` passes a smoke test. The package is **not on npm yet**. Once it is published, you will be able to run:
+
+```bash
+npx -p hepha-skill hepha init --root . --requirement "..."   # one-off
+npm i -g hepha-skill                                          # or global: `hepha`, `hepha-server`
+ln -s "$(npm root -g)/hepha-skill/skills/hepha" ~/.claude/skills/hepha
+```
+
+</details>
+
+## How it works
+
+<p align="center">
+  <img src="docs/assets/brand/hepha-workflow.png" alt="The Hepha loop: SPEC, PLAN, RESEARCH, RED, GREEN, REGRESSION, REVIEW, SUMMARY, WIKI, COMMIT with gates" width="100%" />
+</p>
+
+Each loop runs **one ready task** through:
 
 `SPEC → PLAN → RESEARCH → RED → GREEN → REGRESSION → REVIEW → SUMMARY → WIKI → COMMIT`
 
-The Markdown files are the human reading layer. JSON is the machine fact source used by gates, indexes, and the local review UI.
+- **SPEC / PLAN**: goals, non-goals, scenarios with stable IDs. Every task needs `spec_refs`, Given/When/Then `acceptance`, `risk`, `test_plan.commands` and a `knowledge.asset_policy`. `hepha validate` checks the schema, the references and the dependency DAG.
+- **RESEARCH**: only for a new tool, an architecture change, a security or migration risk, or a real multi-option choice. Trade-offs go into `decision-log.md`.
+- **RED → GREEN → REGRESSION**: `hepha record-check` *executes* the command and stores the command, exit code and output. A RED run must fail.
+- **REVIEW**: Spec review and code review are recorded separately, plus human approval by default. If the host allows sub-agents, they run in isolated contexts.
+- **SUMMARY / WIKI**: a factual summary per task. Reusable conclusions become Wiki candidates and are published only after review and a secret scan.
+- **COMMIT**: one small conventional commit per task, then the indexes are rebuilt and assets synced.
 
-### What you get
+### The gates
 
-- One ready task per loop, with explicit Given/When/Then acceptance criteria.
-- Real RED, GREEN, and regression evidence for behavior changes.
-- Separate Spec and code reviews, plus explicit human approval by default.
-- A dated Summary for what happened and a Wiki asset for what can be reused.
-- A project index and a cross-project personal Wiki under `~/.hepha/wiki`.
-- A dependency-free local HTML review page with search and provenance.
+`hepha transition` enforces `todo → doing → review → done` (plus `blocked`/`skipped`) and checks evidence at every step:
 
-## Features
+| Transition | Refused unless |
+|---|---|
+| `→ doing` | All dependencies are `done`. The task contract (acceptance, tests, Spec refs, mode, asset policy) gets fingerprinted |
+| `→ review` | A failing RED run, a passing GREEN run and a passing regression run are recorded, and the contract fingerprint is unchanged |
+| `→ done` | Spec review and code review passed, human approval is recorded (unless the manifest sets `approval_required: false`), the summary exists, and the asset policy is met |
 
-| Feature | What it does |
-|---------|-------------|
-| **Spec + executable schema** | Validates Specs, task fields, dependency DAGs, state transitions, test plans, and asset policy. |
-| **TDD gates** | Requires a real failing RED run, a passing GREEN run, and a passing regression run. |
-| **Contract fingerprint** | Prevents changing acceptance, tests, Spec references, or asset policy after execution starts. |
-| **Two-layer control** | `SKILL.md` orchestrates strategy; `rules/hepha-guard.mdc` enforces hard stops. |
-| **Summary archive** | Writes `.hepha/summary/YYYY-MM-DD/<person>/TASK-XXX.md` for human and AI review. |
-| **Personal Wiki** | Promotes reviewed candidates into reusable decisions, patterns, recipes, checklists, and troubleshooting notes. |
-| **Cross-project index** | Syncs non-confidential published assets to `~/.hepha/wiki/index.json` with provenance and metrics. |
-| **Local Review HTML** | Renders timeline, task evidence, Wiki cards, candidate queue, search, and Spec → Task → Test → Commit lineage. |
+### Lite mode
 
-## Quick Start
+Small, low-risk changes can declare `"mode": "lite"`. The validator accepts lite only with `risk: "low"` and `asset_policy: "none"`.
 
-```bash
-# 1. Install the skill for Codex (the user-level directory supports symlinks)
-mkdir -p ~/.agents/skills
-ln -s "$(pwd)/skills/hepha" ~/.agents/skills/hepha
+| Gate | `full` (default) | `lite` |
+|---|---|---|
+| Spec refs + Given/When/Then | ✓ | ✓ |
+| RED + GREEN | ✓ | ✓ |
+| Regression run | ✓ | – |
+| Spec review | ✓ | – |
+| Code review + approval | ✓ | ✓ |
+| Summary | ✓ | – |
+| Wiki asset | per policy | not allowed |
 
-# 2. Initialize the machine-readable project workspace
-node ~/.agents/skills/hepha/scripts/hepha-cli.js init --root . --requirement "<one-line requirement>"
+Because `mode` is part of the fingerprinted contract, a task cannot switch to lite halfway through.
 
-# 3. Tell Codex to run the protocol
-Enable hepha mode.
-Use Chinese for task records and summaries.
-Run: spec -> plan -> research -> TDD -> review -> summary -> wiki -> commit.
-Continue until the backlog is complete.
-Requirement: <paste your requirement here>
+### Evidence, summary and personal Wiki
 
-# 4. Validate, sync personal assets, and start the read-only review page
-node ~/.agents/skills/hepha/scripts/hepha-cli.js validate --root .
-node ~/.agents/skills/hepha/scripts/hepha-cli.js sync-personal --root .
-node ~/.agents/skills/hepha/scripts/hepha-server.js --root . --port 3000
-```
+| Layer | Answers | Where |
+|---|---|---|
+| Evidence | What ran and with what result? | `.hepha/evidence/TASK-*.json` |
+| Summary | What happened in this loop? | `.hepha/summary/YYYY-MM-DD/<person>/TASK-*.md` |
+| Wiki asset | What should I reuse, and where does it *not* apply? | `.hepha/wiki/assets/*.md` |
+| Personal index | Where did I learn this, and how trustworthy is it? | `~/.hepha/wiki/index.json` |
 
-The default personal Wiki location is `~/.hepha/wiki`. Use `--wiki-root` or `HEPHA_WIKI_ROOT` when a different location is needed.
+Assets carry `source_specs`, `source_tasks`, `source_tests` and `source_commits`. Before the commit exists, use `source_commits: [self]`. `sync-personal` then resolves it to the hash of the latest commit that touched the asset. Assets marked `project-confidential` never leave the project. Lifecycle: `candidate → reviewed → published → stale → superseded`.
 
-## How It Works
-
-```mermaid
-flowchart LR
-    U[Requirement] --> S[Spec + scenarios]
-    S --> P[Backlog + schema validation]
-    P --> R[RED: failing test]
-    R --> I[Minimal implementation]
-    I --> G[GREEN + regression]
-    G --> V[Spec + code review]
-    V --> M[Summary + asset candidate]
-    M --> A{Human approval}
-    A -->|pass| C[Commit + indexes + personal Wiki]
-    A -->|changes| I
-    C --> N{More tasks?}
-    N -->|yes| P
-    N -->|no| D[Delivery summary]
-    V -->|blocked| B[Re-plan]
-    B --> P
-```
-
-### The loop
-
-1. **Spec and plan** — Define goals, non-goals, constraints, scenarios, and Definition of Done. Tasks reference stable Spec scenario IDs.
-2. **Research** — Research only for a new tool, architecture change, security/migration risk, or a real multi-option decision. Record trade-offs in `decision-log.md`.
-3. **TDD** — Record commands, exit codes, and output summaries in `.hepha/evidence/TASK-XXX.json`.
-4. **Review** — Run Spec review and code review independently. UI or flow changes also require browser evidence.
-5. **Summary and Wiki** — Write the factual task Summary first. Extract only stable, reusable conclusions into a candidate asset; redact secrets and project-confidential details.
-6. **Commit** — A task may become `done` only after evidence, reviews, Summary, asset policy, and approval gates pass. Use `source_commits: [self]` before the task commit; sync resolves it to the real hash afterward.
-
-## Personal Wiki and Asset Data
-
-The key distinction is intentional:
-
-| Layer | Question answered | Retention |
-|------|-------------------|-----------|
-| Evidence | What was tested or reviewed? | Per task, immutable record |
-| Summary | What happened in this delivery loop? | Dated project history |
-| Wiki asset | What should I reuse next time? | Long-lived personal knowledge |
-| Personal index | Where, how often, and with what provenance can I find it? | Cross-project query layer |
-
-The asset pipeline is:
-
-```text
-Spec + task + tests + reviews
-        ↓
-Summary (facts and evidence)
-        ↓ deliberate extraction + sensitivity check
-Wiki candidate (reusable conclusion)
-        ↓ review and publish
-Project Wiki asset (.hepha/wiki/assets/*.md)
-        ↓ post-commit sync
-Personal Wiki (~/.hepha/wiki/assets/<project-key>/*.md + index.json)
-```
-
-Asset frontmatter records the provenance needed to trust and reuse it:
-
-```yaml
-asset_id: PAT-001
-type: pattern
-status: published
-tags: [tdd, api]
-source_tasks: [TASK-004]
-source_specs: [SPEC-002]
-source_tests: [tests/api.test.js]
-source_commits: [<resolved git hash>]
-confidence: verified
-sensitivity: personal
-```
-
-Lifecycle: `candidate → reviewed → published → stale → superseded`. Supported types include `decision`, `pattern`, `recipe`, `checklist`, `troubleshooting`, `glossary`, `retrospective`, and `project-map`. `project-confidential` assets never enter the cross-project Wiki.
-
-`index.json` is generated data, not hand-edited state. It contains searchable asset records plus metrics such as total assets, counts by status/type/project, top tags, and provenance completeness. This makes personal engineering capital measurable without treating file count as quality.
-
-## Local Review HTML
-
-Start the read-only server:
-
-```bash
-node ~/.agents/skills/hepha/scripts/hepha-server.js --root . --port 3000
-```
-
-Pages and capabilities:
-
-- `/` — project overview, task timeline, artifact links, published assets, and candidate queue.
-- `/task?file=...` — rendered Summary plus TDD/check rows, Spec/code/human review status, and linked Wiki assets.
-- `/asset?scope=project&file=...` — asset content, metadata, and Spec → Task → Test → Commit lineage.
-- `/search?q=...` — normalized full-text search across tasks, assets, tags, and source IDs.
-- `/artifact?name=progress.md` — rendered backlog, progress, or decision log.
-
-The server only accepts GET/HEAD, validates paths and symlinks, blocks executable links, and sends CSP, `X-Frame-Options`, and `nosniff` headers. The page is a review surface; `.hepha/backlog.json`, evidence JSON, and Wiki indexes remain the sources of truth.
-
-## Runtime Artifacts
+<details>
+<summary>Runtime layout</summary>
 
 ```text
 .hepha/
 ├── manifest.json                         # requirement, owner, approval policy
 ├── backlog.json                          # machine fact source
-├── backlog.md                            # generated reading view
-├── specs/SPEC-XXX.md                     # behavior specification
-├── evidence/TASK-XXX.json                # TDD, checks, reviews, browser evidence
-├── summary/YYYY-MM-DD/<person>/TASK.md   # factual delivery record
-├── wiki/candidates/*.md                  # reviewed candidates awaiting publish
-├── wiki/assets/*.md                      # published project assets
-├── wiki/index.json                       # project asset index + metrics
-└── index.json                            # task and asset search index
+├── backlog.md                            # rendered reading view
+├── progress.md · decision-log.md
+├── specs/SPEC-XXX.md
+├── evidence/TASK-XXX.json                # checks, reviews, contract fingerprint
+├── summary/YYYY-MM-DD/<person>/TASK.md
+├── wiki/candidates/*.md · wiki/assets/*.md · wiki/index.json
+└── index.json                            # task + asset search index
 ```
 
-## CLI Reference
+</details>
 
-```text
-init             Create .hepha runtime directories and starter Spec
-validate         Validate backlog schema, references, and dependency DAG
-record-check     Execute and record RED/GREEN/regression/check evidence
-record-review    Record Spec, code, or human review
-transition       Enforce the task state machine and completion gates
-publish-asset    Move a reviewed candidate into project Wiki assets
-build-index      Rebuild project task and asset indexes
-sync-personal    Aggregate published, non-confidential assets across projects
-```
+## CLI reference
+
+Run it from a clone with `node skills/hepha/scripts/hepha-cli.js <command>`, or as `hepha <command>` once installed from npm. Every command accepts `--root <project>`.
+
+| Command | Purpose |
+|---|---|
+| `init --requirement "…" [--person NAME]` | Create `.hepha/`, the manifest, an empty backlog and a starter Spec |
+| `validate [--allow-empty]` | Check backlog schema, Spec references, modes and the dependency DAG |
+| `record-check --task T --phase red\|green\|regression\|lint\|build\|browser --command "…"` | Run the command and record its exit code and output. RED must fail, the other phases must pass |
+| `record-review --task T --type spec\|code\|human --status passed\|failed\|changes-requested [--reviewer N] [--notes "…"]` | Record a review |
+| `transition --task T --to doing\|review\|done\|blocked\|skipped` | Change state if the gates pass |
+| `publish-asset --file .hepha/wiki/candidates/X.md [--reviewer N]` | Validate, scan for secrets and publish a Wiki asset |
+| `build-index` | Rebuild the task and asset indexes |
+| `sync-personal [--wiki-root DIR]` | Copy published, non-confidential assets to the personal Wiki |
+| `version` | Print the version |
+| `hepha-server [--port 3000] [--host 127.0.0.1] [--wiki-root DIR]` | Read-only local review UI |
+
+Environment: `HEPHA_PERSON`, `HEPHA_WIKI_ROOT`, `HEPHA_PORT`, `HEPHA_HOST`.
+
+## How Hepha compares
+
+Hepha borrows the Spec-first and TDD discipline popularised by [Superpowers](https://github.com/obra/superpowers) and [Spec Kit](https://github.com/github/spec-kit). All three are useful, and they solve different problems. This comparison is based on their READMEs as of October 2026. Corrections are welcome.
+
+| | Superpowers | Spec Kit | Hepha |
+|---|---|---|---|
+| **What it is** | A methodology delivered as a library of composable skills (brainstorming, plans, worktrees, subagent-driven development, TDD, code review…) | An open source toolkit with a Python CLI (`specify`), templates and agent commands for SDD, bug fixing and idea assessment | One delivery skill + one guard rule + a zero-dependency Node CLI |
+| **Scope** | Broad SDLC coverage, many harnesses | Many processes and agents; extensions, presets, workflows and catalogs for teams | Deliberately narrow: one loop for one person's delivery |
+| **Install** | Plugin marketplaces (Claude Code, Codex, Cursor, Gemini CLI, …) | `uv tool install specify-cli` | Symlink or copy a folder (npm package prepared, not yet published) |
+| **Where enforcement lives** | Skill instructions that trigger automatically | Commands, templates and optional extension gates | A CLI state machine that reads recorded evidence and exits non-zero when it is missing |
+| **Test evidence** | TDD skill: watch the test fail, then pass | Depends on the chosen process / extensions | RED/GREEN/regression command, exit code and output stored per task |
+| **Knowledge capture** | Design docs and plans | Specs, plans and tasks as Markdown artifacts | Summaries + reviewed Wiki assets with Spec/Task/Test/Commit provenance, synced across projects |
+| **Review surface** | Your agent / PRs | Your agent / generated artifacts | Local read-only HTML: timeline, evidence, search, lineage |
+
+**Rough guide:** pick Superpowers for a broad, auto-triggering skill set across many agents. Pick Spec Kit for team-wide, customisable spec-driven processes. Pick Hepha for a small, auditable loop where "done" means the evidence is on disk, plus a personal knowledge trail. You can combine Hepha with either of them.
+
+## FAQ
+
+<details>
+<summary><b>Does this slow the agent down?</b></summary>
+
+Yes, somewhat. Writing a failing test first and recording two reviews costs time. Lite mode exists for the small changes where that cost isn't worth it. Hepha is meant for work where finding a bad change late costs more than the extra steps.
+</details>
+
+<details>
+<summary><b>Can't the agent just fake the evidence?</b></summary>
+
+`record-check` runs the command itself and records the real exit code, and the gates read those records. Nothing stops a determined agent from editing the JSON directly, so the evidence is only as trustworthy as your process. The guard rule forbids hand-editing it, and you can rerun every recorded command. Hepha makes cutting corners visible and costly. It cannot make it impossible.
+</details>
+
+<details>
+<summary><b>Which agents does it work with?</b></summary>
+
+It's built for Claude Code and Codex, which both have native skill folders. The CLI is plain Node, so any agent that can read `SKILL.md` and run shell commands can follow the protocol.
+</details>
+
+<details>
+<summary><b>Why are the CLI messages and templates in Chinese?</b></summary>
+
+The skill started as Chinese-first for its author's team. Specs, summaries and assets can be written in any language; the example in this repo is in English. Localising the CLI messages is on the wish list, and PRs are welcome.
+</details>
+
+<details>
+<summary><b>Does it commit or push for me?</b></summary>
+
+The skill asks for one small conventional commit per task, following the commit policy you approve. Human approval is required by default. The CLI itself never commits. Its only git calls are read-only: `git config user.name` (default person name) and `git log` (`sync-personal` uses it to resolve `self` commit references).
+</details>
+
+<details>
+<summary><b>Where does my data go?</b></summary>
+
+Nowhere. Everything lives in `.hepha/` in your project and, if you sync, in `~/.hepha/wiki`. The review server only binds to localhost, accepts only GET/HEAD and sends restrictive security headers.
+</details>
 
 ## Documentation
 
-- [Skill definition](./skills/hepha/SKILL.md)
-- [Runtime schema](./skills/hepha/references/runtime-schema.md)
-- [Spec, TDD, and role isolation](./skills/hepha/references/spec-tdd-sdd.md)
-- [Personal Wiki and asset lifecycle](./skills/hepha/references/personal-wiki.md)
-- [Task decomposition patterns](./skills/hepha/references/decomposition-patterns.md)
-- [Progress visualization](./skills/hepha/references/progress-template.md)
-- [Quality gates](./skills/hepha/references/validation_quality-gates.md)
+- [Worked example and walkthrough](./examples)
+- [Skill definition (`SKILL.md`)](./skills/hepha/SKILL.md) · [Guard rule](./rules/hepha-guard.mdc)
+- [Runtime schema](./skills/hepha/references/runtime-schema.md) · [Spec, TDD and role isolation](./skills/hepha/references/spec-tdd-sdd.md) · [Quality gates](./skills/hepha/references/validation_quality-gates.md)
+- [Personal Wiki and asset lifecycle](./skills/hepha/references/personal-wiki.md) · [Decomposition patterns](./skills/hepha/references/decomposition-patterns.md)
+- [Changelog](./CHANGELOG.md) · [Brand assets](./docs/assets/brand) · [ClawHub page](https://clawhub.ai/melonlee/hepha-skill)
 
-## Scope
+## Contributing
 
-Hepha is an autonomous coding execution protocol for evidence-driven, small-step delivery. It does not replace product decisions or act as a general external workflow scheduler.
+```bash
+npm test   # node:test, no install needed: runtime, CLI, server, lite mode and the example's gates
+```
 
-## Changelog
+Issues and PRs are welcome. Behaviour changes to the CLI should come with a test, and ideally a failing one first.
 
-### v2.0.0
+## Star history
 
-- Added executable Spec/TDD/dual-review gates and task contract fingerprints.
-- Added project Wiki candidates, publishing, cross-project personal sync, provenance, and metrics.
-- Added local HTML timeline, task evidence, Wiki views, search, and lineage pages.
-- Added Codex user-level installation metadata and automated runtime tests.
-
-### v1.0.0
-
-- Initial release with task decomposition, progress visualization, validation, and local summaries.
+<a href="https://www.star-history.com/#melonlee/hepha-skill&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=melonlee/hepha-skill&type=Date&theme=dark" />
+    <img alt="Star history chart" src="https://api.star-history.com/svg?repos=melonlee/hepha-skill&type=Date" width="600" />
+  </picture>
+</a>
 
 ## License
 
-MIT
+[MIT](./LICENSE) © melonlee
