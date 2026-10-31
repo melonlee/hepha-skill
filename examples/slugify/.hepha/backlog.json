@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0",
+  "requirement": "Ship a dependency-free slugify(text, options) utility for URL-safe slugs",
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Core slugify: lowercase, hyphen separators, input validation",
+      "state": "todo",
+      "mode": "full",
+      "depends_on": [],
+      "acceptance": [
+        { "id": "AC-001", "given": "the text 'Hello, World!'", "when": "slugify is called", "then": "it returns 'hello-world' (SC-001)" },
+        { "id": "AC-002", "given": "the text '  --Hepha   Forge__v2--  '", "when": "slugify is called", "then": "it returns 'hepha-forge-v2' (SC-002)" },
+        { "id": "AC-003", "given": "null, 42 or undefined", "when": "slugify is called", "then": "it throws a TypeError (SC-003)" },
+        { "id": "AC-004", "given": "text without ASCII letters or digits such as '!!!'", "when": "slugify is called", "then": "it returns an empty string" }
+      ],
+      "risk": "low",
+      "files_hint": ["src/slugify.js", "test/slugify.test.js", "package.json"],
+      "spec_refs": ["SPEC-001"],
+      "behavior_change": true,
+      "test_plan": { "commands": ["node --test test/slugify.test.js", "npm test"] },
+      "knowledge": { "asset_policy": "candidate", "candidate_types": ["checklist"] }
+    },
+    {
+      "id": "TASK-002",
+      "title": "Fold accented Latin letters to ASCII",
+      "state": "todo",
+      "mode": "full",
+      "depends_on": ["TASK-001"],
+      "acceptance": [
+        { "id": "AC-005", "given": "the text 'Crème Brûlée à la carte'", "when": "slugify is called", "then": "it returns 'creme-brulee-a-la-carte' (SC-004)" },
+        { "id": "AC-006", "given": "non-Latin text such as '你好'", "when": "slugify is called", "then": "it still returns an empty string (non-goal: no transliteration)" }
+      ],
+      "risk": "medium",
+      "files_hint": ["src/slugify.js", "test/slugify.test.js"],
+      "spec_refs": ["SPEC-001"],
+      "behavior_change": true,
+      "test_plan": { "commands": ["node --test test/slugify.test.js", "npm test"] },
+      "knowledge": { "asset_policy": "required", "candidate_types": ["pattern"] }
+    },
+    {
+      "id": "TASK-003",
+      "title": "Add maxLength option without a trailing hyphen",
+      "state": "todo",
+      "mode": "lite",
+      "depends_on": ["TASK-001"],
+      "acceptance": [
+        { "id": "AC-007", "given": "'Small steps ship safely' and { maxLength: 12 }", "when": "slugify is called", "then": "it returns 'small-steps' (SC-005)" },
+        { "id": "AC-008", "given": "maxLength 0, -1, 2.5 or '10'", "when": "slugify is called", "then": "it throws a RangeError" }
+      ],
+      "risk": "low",
+      "files_hint": ["src/slugify.js", "test/slugify.test.js"],
+      "spec_refs": ["SPEC-001"],
+      "behavior_change": true,
+      "test_plan": { "commands": ["node --test test/slugify.test.js"] },
+      "knowledge": { "asset_policy": "none" }
+    }
+  ]
+}

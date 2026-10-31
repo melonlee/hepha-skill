@@ -1,0 +1,10 @@
+{
+  "schema_version": "2.0",
+  "requirement": "Ship a dependency-free slugify(text, options) utility for URL-safe slugs",
+  "person": "melonlee",
+  "person_slug": "melonlee",
+  "created_at": "2026-10-31T15:15:52.528Z",
+  "updated_at": "2026-10-31T15:15:52.528Z",
+  "commit_policy": "manual",
+  "approval_required": true
+}

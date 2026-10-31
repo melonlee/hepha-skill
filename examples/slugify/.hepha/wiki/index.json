@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-31T15:15:52.544Z",
+  "metrics": {
+    "total": 0,
+    "by_status": {},
+    "by_type": {},
+    "by_project": {},
+    "top_tags": [],
+    "provenance_complete": 0,
+    "provenance_completeness": 1
+  },
+  "assets": []
+}

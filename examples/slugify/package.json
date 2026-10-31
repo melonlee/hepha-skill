@@ -1,0 +1,14 @@
+{
+  "name": "hepha-example-slugify",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sample project delivered end-to-end with the Hepha CLI. See ../README.md.",
+  "main": "src/slugify.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/slugify.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
