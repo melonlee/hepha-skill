@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hepha: big requirements in, small proven commits out</title>
+  <meta name="description" content="Hepha is an agent skill for Claude Code and Codex plus a zero-dependency Node CLI. It breaks a large requirement into small tasks, and a task only counts as done when real test runs and separate reviews are on record." />
+  <meta name="theme-color" content="#100d0c" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Open Graph / Twitter. Crawlers prefer absolute URLs: see website/README.md once you have a domain. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Hepha" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+  <meta property="og:title" content="Hepha: big requirements in, small proven commits out" />
+  <meta property="og:description" content="An agent skill + zero-dependency CLI for Claude Code and Codex. A task is done only when real RED/GREEN/regression runs and separate reviews are on record." />
+  <meta property="og:image" content="assets/hepha-social-preview.png" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  <meta property="og:image:alt" content="Hepha: big requirements in, small proven commits out" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hepha: big requirements in, small proven commits out" />
+  <meta name="twitter:description" content="An agent skill + zero-dependency CLI for Claude Code and Codex. A task is done only when real test runs and separate reviews are on record." />
+  <meta name="twitter:image" content="assets/hepha-social-preview.png" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="alternate" hreflang="zh-CN" href="zh/" />
+  <link rel="stylesheet" href="assets/site.css" />
+  <script src="assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Main">
+      <a class="brand" href="./" aria-label="Hepha home"><img src="assets/hepha-logo-dark.svg" alt="Hepha" width="92" height="26" /></a>
+      <ul class="nav-links">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#evidence">Evidence</a></li>
+        <li><a href="#wiki">Wiki</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#compare">Compare</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <a class="lang" href="zh/" hreflang="zh-CN" lang="zh-CN">中文</a>
+        <a class="btn btn-sm" href="https://github.com/melonlee/hepha-skill" aria-label="Hepha on GitHub">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span class="label">GitHub</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="pill"><b>Skill + CLI</b> for Claude Code &amp; Codex</p>
+            <h1 id="hero-title"><span>Big requirements in.</span> <span class="hot">Small, proven commits out.</span></h1>
+            <p class="lede">Hepha breaks a large requirement into small tasks. A task only counts as done when <strong>real RED, GREEN and regression runs</strong> and <strong>separate Spec, code and human reviews</strong> are on record. Reusable conclusions go into your personal engineering Wiki.</p>
+            <div class="cta">
+              <a class="btn btn-primary" href="#install">Get started <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="btn" href="https://github.com/melonlee/hepha-skill">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                GitHub
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/melonlee/hepha-skill/tree/main/examples">Worked example <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+            <ul class="facts" aria-label="Facts">
+              <li>MIT licensed</li>
+              <li>Node ≥ 18</li>
+              <li>0 runtime dependencies</li>
+              <li>Local-only, no telemetry</li>
+            </ul>
+          </div>
+
+          <figure class="gate-card" data-gate-card>
+            <figcaption class="sr-only">Illustration: TASK-001 from the worked example passing Hepha's gates. RED failed with exit code 1, GREEN and regression passed, spec, code and human reviews passed, then the transition to done was accepted.</figcaption>
+            <div class="card-bar">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="path">.hepha/evidence/TASK-001.json</span>
+              <span class="tag">mode: full</span>
+            </div>
+            <div class="track" aria-hidden="true">
+              <span class="fill"></span>
+              <div class="node red on"><span class="dot" data-idle="1" data-on="✕"></span><span class="lbl">RED</span></div>
+              <div class="node green on"><span class="dot" data-idle="2" data-on="✓"></span><span class="lbl">GREEN</span></div>
+              <div class="node review on"><span class="dot" data-idle="3" data-on="✓"></span><span class="lbl">REVIEW</span></div>
+              <div class="node done on"><span class="dot" data-idle="4" data-on="✓"></span><span class="lbl">DONE</span></div>
+            </div>
+            <ul class="log">
+              <li class="r1"><span class="k">red</span><span class="v">node --test test/slugify.test.js</span><span class="badge fail">exit 1</span></li>
+              <li class="r2"><span class="k">green</span><span class="v">node --test test/slugify.test.js</span><span class="badge pass">exit 0</span></li>
+              <li class="r2"><span class="k">regression</span><span class="v">npm test --silent</span><span class="badge pass">exit 0</span></li>
+              <li class="r3"><span class="k">spec review</span><span class="v">claude-spec-reviewer</span><span class="badge pass">passed</span></li>
+              <li class="r3"><span class="k">code review</span><span class="v">claude-code-reviewer</span><span class="badge pass">passed</span></li>
+              <li class="r3"><span class="k">human</span><span class="v">melonlee (recorded by agent)</span><span class="badge pass">passed</span></li>
+            </ul>
+            <div class="term-foot">
+              <div class="cmd">hepha transition --task TASK-001 --to done</div>
+              <div class="out">{ "ok": true, "task": { "id": "TASK-001", "state": <b>"done"</b> … } }</div>
+            </div>
+          </figure>
+        </div>
+
+        <div class="loopline" aria-label="The Hepha loop">
+          <span>SPEC</span><i aria-hidden="true">→</i><span>PLAN</span><i aria-hidden="true">→</i><span>RESEARCH</span><i aria-hidden="true">→</i><span class="hot">RED</span><i aria-hidden="true">→</i><span class="hot">GREEN</span><i aria-hidden="true">→</i><span class="hot">REGRESSION</span><i aria-hidden="true">→</i><span>REVIEW</span><i aria-hidden="true">→</i><span>SUMMARY</span><i aria-hidden="true">→</i><span>WIKI</span><i aria-hidden="true">→</i><span>COMMIT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROBLEM ============ -->
+    <section class="block" id="problem" aria-labelledby="problem-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">01</span> The problem</span>
+          <h2 id="problem-title">“All tests pass” is a claim. Hepha leaves evidence.</h2>
+          <p>A long agent session leaves you with a big diff, a transcript and a confident summary. Afterwards you can only check the diff and what the agent <em>said</em>. Hepha changes what is left on disk: the agent still writes the Spec, the code and the notes, while the CLI runs your test commands, records the results and the reviews, and refuses to move a task forward while evidence is missing.</p>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table class="versus stack">
+              <thead>
+                <tr><th scope="col">After the run, can you check…</th><th scope="col">One long agent session</th><th scope="col" class="hepha">A Hepha run</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">…what behaviour was agreed?</th><td class="weak" data-label="Long session">The prompt, maybe</td><td class="strong" data-label="Hepha"><code>specs/SPEC-*.md</code> with scenario IDs. Each task has Given/When/Then acceptance criteria, fingerprinted when work starts</td></tr>
+                <tr><th scope="row">…that a test failed <em>before</em> the fix?</th><td class="weak" data-label="Long session">Only if it happened and you find it in the transcript</td><td class="strong" data-label="Hepha"><code>evidence/TASK-*.json</code> holds the RED command, its non-zero exit code and output</td></tr>
+                <tr><th scope="row">…that tests pass now?</th><td class="weak" data-label="Long session">The agent’s statement</td><td class="strong" data-label="Hepha">GREEN and regression records, plus <code>test_plan.commands</code> you can rerun</td></tr>
+                <tr><th scope="row">…that Spec and code were reviewed?</th><td class="weak" data-label="Long session">Usually mixed into one pass, or skipped</td><td class="strong" data-label="Hepha">Separate <code>spec</code>, <code>code</code> and <code>human</code> review records with reviewer and notes</td></tr>
+                <tr><th scope="row">…which commit did what?</th><td class="weak" data-label="Long session">One large diff</td><td class="strong" data-label="Hepha">One small commit per task, and assets linked Spec → Task → Test → Commit</td></tr>
+                <tr><th scope="row">…what is worth reusing?</th><td class="weak" data-label="Long session">Buried in the transcript</td><td class="strong" data-label="Hepha">A dated summary plus reviewed Wiki assets, searchable across projects</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="callout">
+          <span class="ic" aria-hidden="true">!</span>
+          <p><strong>What Hepha does not do:</strong> it cannot judge whether a test is <em>meaningful</em> or a review was <em>thorough</em>. It proves that commands ran with the recorded results and that each review step was explicitly recorded. Treat it as an audit trail and a guard rail, not a substitute for judgement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="block" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">02</span> How it works</span>
+          <h2 id="how-title">One ready task per loop. Every step leaves something the CLI can check.</h2>
+          <p>JSON in <code>.hepha/</code> is the source of truth; Markdown is the reading layer. The agent calls the CLI to record evidence and to request state changes.</p>
+        </div>
+
+        <ol class="steps-grid" aria-label="The loop">
+          <li class="step"><span class="num">01 · plan</span><h3>SPEC</h3><p>Goals, non-goals and behaviour scenarios with stable IDs.</p><code>specs/SPEC-001.md</code></li>
+          <li class="step"><span class="num">02 · plan</span><h3>PLAN</h3><p>Tasks with <code>spec_refs</code>, Given/When/Then acceptance, risk, test commands and an asset policy.</p><code>hepha validate</code></li>
+          <li class="step"><span class="num">03 · plan</span><h3>RESEARCH</h3><p>Only for a new tool, an architecture change, a security or migration risk, or a real multi-option choice.</p><code>decision-log.md</code></li>
+          <li class="step forge"><span class="num">04 · forge</span><h3>RED</h3><p>Write the test first. The CLI executes it, and it must actually fail.</p><code>record-check --phase red</code></li>
+          <li class="step forge"><span class="num">05 · forge</span><h3>GREEN</h3><p>The smallest implementation that makes it pass. Command, exit code and output are stored.</p><code>--phase green</code></li>
+          <li class="step forge"><span class="num">06 · forge</span><h3>REGRESSION</h3><p>The broader suite still passes after the change.</p><code>--phase regression</code></li>
+          <li class="step"><span class="num">07 · temper</span><h3>REVIEW</h3><p>Spec review and code review recorded separately, plus human approval by default.</p><code>record-review</code></li>
+          <li class="step"><span class="num">08 · record</span><h3>SUMMARY</h3><p>A factual summary of what happened in this loop.</p><code>summary/&lt;date&gt;/&lt;person&gt;/</code></li>
+          <li class="step"><span class="num">09 · record</span><h3>WIKI</h3><p>Reusable conclusions become candidates, published only after review and a secret scan.</p><code>publish-asset</code></li>
+          <li class="step"><span class="num">10 · ship</span><h3>COMMIT</h3><p>One small conventional commit per task, then indexes rebuilt and assets synced.</p><code>build-index</code></li>
+        </ol>
+
+        <!-- gates -->
+        <div class="sub" id="gates">
+          <h3>Gates that refuse</h3>
+          <p class="sub-lede"><code>hepha transition</code> enforces <code>todo → doing → review → done</code> (plus <code>blocked</code> / <code>skipped</code>) and checks the recorded evidence at every step. When something is missing it prints why and exits non-zero.</p>
+
+          <div class="states" aria-hidden="true">
+            <span class="st">todo</span><span>→</span><span class="st">doing</span><span>→</span><span class="st">review</span><span>→</span><span class="st done">done</span><span class="side">· blocked · skipped</span>
+          </div>
+          <div class="gates">
+            <div class="gate">
+              <h4><span class="arr">→</span> doing</h4>
+              <p class="refuse">Refused unless</p>
+              <ul>
+                <li>All dependencies are <code>done</code>.</li>
+                <li>On entry, the task contract (acceptance, tests, Spec refs, mode, asset policy) is fingerprinted.</li>
+              </ul>
+            </div>
+            <div class="gate">
+              <h4><span class="arr">→</span> review</h4>
+              <p class="refuse">Refused unless</p>
+              <ul>
+                <li>A failing RED run, a passing GREEN run and a passing regression run are recorded.</li>
+                <li>The contract fingerprint is unchanged.</li>
+              </ul>
+            </div>
+            <div class="gate">
+              <h4><span class="arr">→</span> done</h4>
+              <p class="refuse">Refused unless</p>
+              <ul>
+                <li>Spec review and code review passed.</li>
+                <li>Human approval is recorded (unless the manifest sets <code>approval_required: false</code>).</li>
+                <li>The summary exists and the asset policy is met.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub split">
+          <div class="term" role="group" aria-label="Real gate refusals from the worked example">
+            <div class="card-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="path">examples/slugify · from progress.md and the evidence file</span></div>
+<pre><code><span class="c"># GREEN ran before the implementation was saved, so it exited 1</span>
+<span class="p">$ </span><span class="h">hepha transition --root . --task TASK-001 --to review</span>
+<span class="e">Hepha: 状态门禁未通过：
+缺少 GREEN 通过测试证据
+缺少 regression 通过证据</span>
+<span class="c"># state gate failed: no passing GREEN evidence,
+# no passing regression evidence  (exit 1)</span>
+
+<span class="c"># later: asking for done before writing the summary</span>
+<span class="p">$ </span><span class="h">hepha transition --root . --task TASK-001 --to done</span>
+<span class="e">Hepha: 状态门禁未通过：
+缺少人工批准
+缺少任务 summary
+缺少资产候选</span>
+<span class="c"># missing human approval, task summary
+# and asset candidate  (exit 1)</span></code></pre>
+          </div>
+          <div class="prose">
+            <h4>Real refusals, kept on record</h4>
+            <p>The <a href="https://github.com/melonlee/hepha-skill/tree/main/examples">worked example</a> was built from an empty folder using only the CLI. The gates refused two steps along the way. The failed GREEN run is still in <code>evidence/TASK-001.json</code>, in order:</p>
+            <div class="seq" aria-label="Recorded checks for TASK-001 in order">
+              <span class="f">red:1</span><span class="f">green:1</span><span class="f">regression:1</span><span class="ok">green:0</span><span class="ok">regression:0</span>
+            </div>
+            <p>Evidence is append-only, and the gate reads the latest run. CI re-checks the example’s gates on every run.</p>
+            <p class="muted">CLI messages are currently in Chinese (translated in the comments). Your Specs, summaries and assets can be in any language.</p>
+          </div>
+        </div>
+
+        <!-- lite + fingerprint -->
+        <div class="sub split even">
+          <div>
+            <h3>Full or lite</h3>
+            <p class="sub-lede">Small, low-risk changes can declare <code>"mode": "lite"</code>. The validator only accepts lite with <code>risk: "low"</code> and <code>asset_policy: "none"</code>.</p>
+            <div class="table-wrap">
+              <table class="modes">
+                <thead><tr><th scope="col">Gate</th><th scope="col" class="full">full (default)</th><th scope="col">lite</th></tr></thead>
+                <tbody>
+                  <tr><td>Spec refs + Given/When/Then</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>RED + GREEN</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>Regression run</td><td class="y">✓</td><td class="n">–</td></tr>
+                  <tr><td>Spec review</td><td class="y">✓</td><td class="n">–</td></tr>
+                  <tr><td>Code review + approval</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>Summary</td><td class="y">✓</td><td class="n">–</td></tr>
+                  <tr><td>Wiki asset</td><td>per policy</td><td class="n">not allowed</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>Contract fingerprint</h3>
+            <p class="sub-lede">Entering <code>doing</code> stores a SHA-256 of the task contract. Weaken the acceptance criteria, swap the tests or switch to lite halfway through, and the next gate refuses.</p>
+            <div class="term">
+              <div class="card-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="path">.hepha/evidence/TASK-001.json</span></div>
+<pre><code><span class="h">"task_contract_hash"</span>: <span class="o">"fa67d99d67793423…f01c04db0f"</span>,
+<span class="h">"contract_recorded_at"</span>: <span class="o">"2026-10-31T15:17:50.211Z"</span>
+
+<span class="c"># if the contract changes after that:</span>
+<span class="e">任务契约已变更；请将任务标记 blocked、
+记录原因并重新规划，不得静默降低门禁</span>
+<span class="c"># contract changed: mark the task blocked,
+# record why and re-plan. Do not silently
+# lower the gate.</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVIDENCE UI ============ -->
+    <section class="block" id="evidence" aria-labelledby="evidence-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">03</span> Evidence &amp; review</span>
+          <h2 id="evidence-title">Review the run, not the transcript.</h2>
+          <p><code>hepha-server</code> renders <code>.hepha/</code> as a local, read-only site: the timeline, every recorded command and review, Wiki cards, search and lineage. These are real screenshots of it running on the worked example.</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Review UI screenshots">
+          <button class="tab" role="tab" id="t-ov" aria-controls="p-ov" aria-selected="true">Overview</button>
+          <button class="tab" role="tab" id="t-task" aria-controls="p-task" aria-selected="false">Task evidence</button>
+          <button class="tab" role="tab" id="t-asset" aria-controls="p-asset" aria-selected="false">Wiki asset</button>
+          <button class="tab" role="tab" id="t-search" aria-controls="p-search" aria-selected="false">Search</button>
+        </div>
+        <div class="browser">
+          <div class="card-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">127.0.0.1:3000</span></div>
+          <div class="shot" role="tabpanel" id="p-ov" aria-labelledby="t-ov">
+            <figure><a href="assets/review-index.webp" class="zoom"><img src="assets/review-index.webp" width="1600" height="1075" alt="Hepha review UI overview: task and asset counters, search box, artifact files, personal Wiki cards for PAT-001 and CHK-001, and the task timeline" /></a><figcaption><b>Overview</b>: artifacts, Wiki cards, candidate queue and task timeline.</figcaption></figure>
+          </div>
+          <div class="shot" role="tabpanel" id="p-task" aria-labelledby="t-task">
+            <figure><a href="assets/review-task.webp" class="zoom"><img src="assets/review-task.webp" width="1600" height="1075" loading="lazy" alt="Task page for TASK-002: TDD checks table with red exit 1, green exit 0, regression exit 0, and spec, code and human reviews marked passed" /></a><figcaption><b>Task</b>: recorded RED / GREEN / regression runs with exit codes, and spec / code / human reviews.</figcaption></figure>
+          </div>
+          <div class="shot" role="tabpanel" id="p-asset" aria-labelledby="t-asset">
+            <figure><a href="assets/review-asset.webp" class="zoom"><img src="assets/review-asset.webp" width="1600" height="1075" loading="lazy" alt="Wiki asset page for PAT-001 with lineage: SPEC-001, TASK-002, test/slugify.test.js and a resolved commit hash" /></a><figcaption><b>Wiki asset</b>: Spec → Task → Test → Commit lineage, resolved to a real commit hash.</figcaption></figure>
+          </div>
+          <div class="shot" role="tabpanel" id="p-search" aria-labelledby="t-search">
+            <figure><a href="assets/review-search.webp" class="zoom"><img src="assets/review-search.webp" width="1600" height="1075" loading="lazy" alt="Search results for 'nfkd' showing one matching asset and one matching task" /></a><figcaption><b>Search</b>: across tasks, assets, tags and source IDs.</figcaption></figure>
+          </div>
+        </div>
+        <p class="fine">The review UI labels are in Chinese; your content can be in any language.</p>
+
+        <div class="ui-notes">
+          <div class="ui-note"><b>Read-only</b>Accepts only GET and HEAD. It never writes to your project.</div>
+          <div class="ui-note"><b>Localhost by default</b>Binds to <code>127.0.0.1</code> and sends restrictive security headers.</div>
+          <div class="ui-note"><b>Zero dependencies</b>Plain Node ≥ 18. Nothing to install beyond the skill folder.</div>
+          <div class="ui-note"><b>Rerunnable</b>Every recorded command is stored verbatim, so you can run it again yourself.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WIKI ============ -->
+    <section class="block" id="wiki" aria-labelledby="wiki-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">04</span> Personal Wiki</span>
+          <h2 id="wiki-title">Keep what you learned, with its provenance.</h2>
+          <p>Evidence says what ran. A summary says what happened. A Wiki asset says what to reuse, and where it does <em>not</em> apply. Your personal index tracks where each lesson came from, across projects.</p>
+        </div>
+
+        <div class="layers">
+          <div class="layer"><span class="name"><i style="--o:.35"></i>Evidence</span><span class="q">What ran, and with what result?</span><code>.hepha/evidence/TASK-*.json</code></div>
+          <div class="layer"><span class="name"><i style="--o:.55"></i>Summary</span><span class="q">What happened in this loop?</span><code>.hepha/summary/YYYY-MM-DD/&lt;person&gt;/TASK-*.md</code></div>
+          <div class="layer"><span class="name"><i style="--o:.8"></i>Wiki asset</span><span class="q">What should I reuse, and where does it not apply?</span><code>.hepha/wiki/assets/*.md</code></div>
+          <div class="layer"><span class="name"><i></i>Personal index</span><span class="q">Where did I learn this, and how trustworthy is it?</span><code>~/.hepha/wiki/index.json</code></div>
+        </div>
+
+        <div class="sub split even">
+          <div class="prose">
+            <h3>Lineage you can follow</h3>
+            <p>Assets carry <code>source_specs</code>, <code>source_tasks</code>, <code>source_tests</code> and <code>source_commits</code>. Before the commit exists, an asset uses <code>source_commits: [self]</code>; <code>sync-personal</code> later resolves it to the hash of the latest commit that touched the asset. In the example, PAT-001 resolves like this:</p>
+            <div class="lineage" aria-label="PAT-001 lineage">
+              <div class="lk"><span>Spec</span><b>SPEC-001</b></div>
+              <div class="lk"><span>Task</span><b>TASK-002</b></div>
+              <div class="lk"><span>Test</span><b>test/slugify.test.js</b></div>
+              <div class="lk"><span>Commit</span><b>self → 5a94717</b></div>
+            </div>
+          </div>
+          <div class="prose">
+            <h3>Reviewed before it is reused</h3>
+            <p>Conclusions start as candidates. <code>publish-asset</code> validates the schema and scans for secrets before publishing. Assets marked <code>project-confidential</code> never leave the project.</p>
+            <div class="lifecycle" aria-label="Asset lifecycle">
+              <span>candidate</span>→<span>reviewed</span>→<span class="pub">published</span>→<span>stale</span>→<span>superseded</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INSTALL ============ -->
+    <section class="block" id="install" aria-labelledby="install-title">
+      <div class="wrap">
+        <div class="install-layout">
+          <div class="install-intro">
+            <div class="section-head">
+          <span class="eyebrow"><span class="n">05</span> Get started</span>
+          <h2 id="install-title">Clone once. Link the skill. Invoke it.</h2>
+          <p>The skill is never triggered implicitly: you invoke it. The npm package is prepared but <strong>not published yet</strong>, so install from GitHub.</p>
+        </div>
+            <ul class="notes">
+          <li><strong>One project only (Claude Code):</strong> copy <code>skills/hepha</code> into the project’s <code>.claude/skills/</code> and commit it so your team gets it too.</li>
+          <li><strong>Guard rule (optional, recommended):</strong> <code>rules/hepha-guard.mdc</code> restates the hard stops. Copy it to <code>.claude/rules/hepha-guard.md</code>, to <code>.cursor/rules/</code>, or paste it into <code>AGENTS.md</code> for Codex.</li>
+          <li><strong>Any other agent</strong> that can read <code>SKILL.md</code> and run shell commands can follow the protocol; the CLI is plain Node.</li>
+        </ul>
+          </div>
+          <div class="install-main">
+            <div class="tabs" role="tablist" aria-label="Choose your agent">
+          <button class="tab" role="tab" id="t-cc" aria-controls="p-cc" aria-selected="true">Claude Code</button>
+          <button class="tab" role="tab" id="t-cx" aria-controls="p-cx" aria-selected="false">Codex</button>
+        </div>
+
+        <div class="install-grid" role="tabpanel" id="p-cc" aria-labelledby="t-cc">
+          <div class="istep">
+            <span class="bubble" aria-hidden="true">1</span>
+            <div>
+              <h3>Install the skill</h3>
+              <p>A personal skill, available in all your projects.</p>
+              <div class="code">
+                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+<pre><code>git clone https://github.com/melonlee/hepha-skill.git
+cd hepha-skill
+mkdir -p ~/.claude/skills &amp;&amp; ln -s "$PWD/skills/hepha" ~/.claude/skills/hepha</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="istep">
+            <span class="bubble" aria-hidden="true">2</span>
+            <div>
+              <h3>Ask your agent to run it</h3>
+              <p>The agent initialises <code>.hepha/</code>, writes the Spec and a validated backlog, then works one task per loop.</p>
+              <div class="code">
+                <div class="code-head"><span>Claude Code prompt</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+<pre><code>/hepha Build CSV export for the orders page.
+Use English for specs and summaries. Ask me before marking any task done.</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="istep">
+            <span class="bubble" aria-hidden="true">3</span>
+            <div>
+              <h3>Review what happened</h3>
+              <p>Open <code>http://localhost:3000</code>. The server is read-only and binds to <code>127.0.0.1</code>.</p>
+              <div class="code">
+                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+<pre><code>node ~/.claude/skills/hepha/scripts/hepha-server.js --root . --port 3000</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="install-grid" role="tabpanel" id="p-cx" aria-labelledby="t-cx">
+          <div class="istep">
+            <span class="bubble" aria-hidden="true">1</span>
+            <div>
+              <h3>Install the skill</h3>
+              <p>A user-level skill for Codex.</p>
+              <div class="code">
+                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+<pre><code>git clone https://github.com/melonlee/hepha-skill.git
+cd hepha-skill
+mkdir -p ~/.agents/skills &amp;&amp; ln -s "$PWD/skills/hepha" ~/.agents/skills/hepha</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="istep">
+            <span class="bubble" aria-hidden="true">2</span>
+            <div>
+              <h3>Ask your agent to run it</h3>
+              <p>The agent initialises <code>.hepha/</code>, writes the Spec and a validated backlog, then works one task per loop.</p>
+              <div class="code">
+                <div class="code-head"><span>Codex prompt</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+<pre><code>$hepha Build CSV export for the orders page.
+Use English for specs and summaries. Ask me before marking any task done.</code></pre>
+              </div>
+            </div>
+          </div>
+          <div class="istep">
+            <span class="bubble" aria-hidden="true">3</span>
+            <div>
+              <h3>Review what happened</h3>
+              <p>Open <code>http://localhost:3000</code>. The server is read-only and binds to <code>127.0.0.1</code>.</p>
+              <div class="code">
+                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+<pre><code>node ~/.agents/skills/hepha/scripts/hepha-server.js --root . --port 3000</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+
+        <!-- CLI -->
+        <div class="sub" id="cli">
+          <h3>CLI reference</h3>
+          <p class="sub-lede">From a clone, run <code>node skills/hepha/scripts/hepha-cli.js &lt;command&gt;</code>. Every command accepts <code>--root &lt;project&gt;</code>. Environment: <code>HEPHA_PERSON</code>, <code>HEPHA_WIKI_ROOT</code>, <code>HEPHA_PORT</code>, <code>HEPHA_HOST</code>.</p>
+          <div class="table-wrap">
+            <table class="cli">
+              <thead><tr><th scope="col">Command</th><th scope="col">Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>init --requirement "…" [--person NAME]</code></td><td>Create <code>.hepha/</code>, the manifest, an empty backlog and a starter Spec</td></tr>
+                <tr><td><code>validate [--allow-empty]</code></td><td>Check backlog schema, Spec references, modes and the dependency DAG</td></tr>
+                <tr><td><code>record-check --task T --phase red|green|regression|lint|build|browser --command "…"</code></td><td>Run the command and record its exit code and output. RED must fail; the other phases must pass</td></tr>
+                <tr><td><code>record-review --task T --type spec|code|human --status passed|failed|changes-requested</code></td><td>Record a review, with optional <code>--reviewer</code> and <code>--notes</code></td></tr>
+                <tr><td><code>transition --task T --to doing|review|done|blocked|skipped</code></td><td>Change state if the gates pass</td></tr>
+                <tr><td><code>publish-asset --file .hepha/wiki/candidates/X.md [--reviewer N]</code></td><td>Validate, scan for secrets and publish a Wiki asset</td></tr>
+                <tr><td><code>build-index</code></td><td>Rebuild the task and asset indexes</td></tr>
+                <tr><td><code>sync-personal [--wiki-root DIR]</code></td><td>Copy published, non-confidential assets to the personal Wiki</td></tr>
+                <tr><td><code>version</code></td><td>Print the version</td></tr>
+                <tr><td><code>hepha-server [--port 3000] [--host 127.0.0.1] [--wiki-root DIR]</code></td><td>Read-only local review UI</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPARE ============ -->
+    <section class="block" id="compare" aria-labelledby="compare-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">06</span> Comparison</span>
+          <h2 id="compare-title">Narrow on purpose.</h2>
+          <p>Hepha borrows the Spec-first and TDD discipline popularised by <a href="https://github.com/obra/superpowers">Superpowers</a> and <a href="https://github.com/github/spec-kit">Spec Kit</a>. All three are useful and solve different problems. Based on their READMEs as of October 2026; corrections are welcome.</p>
+        </div>
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table class="compare stack">
+              <thead><tr><th scope="col"><span class="sr-only">Aspect</span></th><th scope="col"><a href="https://github.com/obra/superpowers">Superpowers</a></th><th scope="col"><a href="https://github.com/github/spec-kit">Spec Kit</a></th><th scope="col" class="hepha">Hepha</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">What it is</th><td data-label="Superpowers">A methodology delivered as a library of composable skills (brainstorming, plans, worktrees, subagent-driven development, TDD, code review…)</td><td data-label="Spec Kit">An open source toolkit with a Python CLI (<code>specify</code>), templates and agent commands for SDD, bug fixing and idea assessment</td><td class="hepha" data-label="Hepha">One delivery skill + one guard rule + a zero-dependency Node CLI</td></tr>
+                <tr><th scope="row">Scope</th><td data-label="Superpowers">Broad SDLC coverage, many harnesses</td><td data-label="Spec Kit">Many processes and agents; extensions, presets, workflows and catalogs for teams</td><td class="hepha" data-label="Hepha">Deliberately narrow: one loop for one person’s delivery</td></tr>
+                <tr><th scope="row">Install</th><td data-label="Superpowers">Plugin marketplaces (Claude Code, Codex, Cursor, Gemini CLI, …)</td><td data-label="Spec Kit"><code>uv tool install specify-cli</code></td><td class="hepha" data-label="Hepha">Symlink or copy a folder (npm package prepared, not yet published)</td></tr>
+                <tr><th scope="row">Where enforcement lives</th><td data-label="Superpowers">Skill instructions that trigger automatically</td><td data-label="Spec Kit">Commands, templates and optional extension gates</td><td class="hepha" data-label="Hepha">A CLI state machine that reads recorded evidence and exits non-zero when it is missing</td></tr>
+                <tr><th scope="row">Test evidence</th><td data-label="Superpowers">TDD skill: watch the test fail, then pass</td><td data-label="Spec Kit">Depends on the chosen process / extensions</td><td class="hepha" data-label="Hepha">RED/GREEN/regression command, exit code and output stored per task</td></tr>
+                <tr><th scope="row">Knowledge capture</th><td data-label="Superpowers">Design docs and plans</td><td data-label="Spec Kit">Specs, plans and tasks as Markdown artifacts</td><td class="hepha" data-label="Hepha">Summaries + reviewed Wiki assets with Spec/Task/Test/Commit provenance, synced across projects</td></tr>
+                <tr><th scope="row">Review surface</th><td data-label="Superpowers">Your agent / PRs</td><td data-label="Spec Kit">Your agent / generated artifacts</td><td class="hepha" data-label="Hepha">Local read-only HTML: timeline, evidence, search, lineage</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="guide"><strong>Rough guide:</strong> pick Superpowers for a broad, auto-triggering skill set across many agents. Pick Spec Kit for team-wide, customisable spec-driven processes. Pick Hepha for a small, auditable loop where “done” means the evidence is on disk, plus a personal knowledge trail. You can combine Hepha with either of them.</p>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="block" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">07</span> FAQ</span>
+          <h2 id="faq-title">Questions, answered plainly.</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Does this slow the agent down?</summary>
+            <p>Yes, somewhat. Writing a failing test first and recording two reviews costs time. Lite mode exists for the small changes where that cost isn’t worth it. Hepha is meant for work where finding a bad change late costs more than the extra steps.</p>
+          </details>
+          <details>
+            <summary>Can’t the agent just fake the evidence?</summary>
+            <p><code>record-check</code> runs the command itself and records the real exit code, and the gates read those records. Nothing stops a determined agent from editing the JSON directly, so the evidence is only as trustworthy as your process. The guard rule forbids hand-editing it, and you can rerun every recorded command. Hepha makes cutting corners visible and costly. It cannot make it impossible.</p>
+          </details>
+          <details>
+            <summary>Which agents does it work with?</summary>
+            <p>It’s built for Claude Code and Codex, which both have native skill folders. The CLI is plain Node, so any agent that can read <code>SKILL.md</code> and run shell commands can follow the protocol.</p>
+          </details>
+          <details>
+            <summary>Why are the CLI messages and templates in Chinese?</summary>
+            <p>The skill started as Chinese-first for its author’s team. Specs, summaries and assets can be written in any language; the worked example is in English. Localising the CLI messages is on the wish list, and PRs are welcome.</p>
+          </details>
+          <details>
+            <summary>Does it commit or push for me?</summary>
+            <p>The skill asks for one small conventional commit per task, following the commit policy you approve. Human approval is required by default. The CLI itself never commits. Its only git calls are read-only: <code>git config user.name</code> (default person name) and <code>git log</code> (to resolve <code>self</code> commit references).</p>
+          </details>
+          <details>
+            <summary>Where does my data go?</summary>
+            <p>Nowhere. Everything lives in <code>.hepha/</code> in your project and, if you sync, in <code>~/.hepha/wiki</code>. The review server only binds to localhost, accepts only GET/HEAD and sends restrictive security headers.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CLOSING ============ -->
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrap">
+        <img class="mark" src="assets/hepha-mark-dark.svg" alt="" width="64" height="64" />
+        <h2 id="closing-title">Make “done” mean the evidence is on disk.</h2>
+        <p>Read the worked example end to end, or install the skill and run your next requirement through the loop.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#install">Get started <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn" href="https://github.com/melonlee/hepha-skill/tree/main/examples">Worked example</a>
+          <a class="btn btn-ghost" href="https://github.com/melonlee/hepha-skill">Star on GitHub <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div>
+        <a class="brand" href="./" aria-label="Hepha home"><img src="assets/hepha-logo-dark.svg" alt="Hepha" width="78" height="22" /></a>
+        <p>An agent skill + zero-dependency CLI. MIT licensed. Built by Melon at <a href="https://fantasyailab.com/">FantasyAI Lab</a>.</p>
+      </div>
+      <nav aria-label="Footer">
+        <ul>
+          <li><a href="https://github.com/melonlee/hepha-skill">GitHub</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/tree/main/examples">Worked example</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/blob/main/skills/hepha/SKILL.md">SKILL.md</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/blob/main/CHANGELOG.md">Changelog</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/blob/main/LICENSE">MIT License</a></li>
+          <li><a href="zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
