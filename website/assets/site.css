@@ -316,7 +316,7 @@ td { color: var(--fg-2); }
 .term .card-bar { background: var(--bg-2); }
 .term pre { margin: 0; padding: 18px 20px; overflow-x: auto; white-space: pre; }
 .term .p { color: var(--ember); user-select: none; }
-.term .c { color: #7b726a; }
+.term .c { color: #8f867d; }
 .term .e { color: var(--fail); }
 .term .o { color: var(--pass); }
 .term .h { color: var(--fg); }
@@ -337,7 +337,7 @@ td { color: var(--fg-2); }
 .modes td, .modes th { text-align: center; }
 .modes th:first-child, .modes td:first-child { text-align: left; }
 .modes .y { color: var(--pass); font-weight: 700; }
-.modes .n { color: #6f6760; }
+.modes .n { color: #8f867d; }
 .modes thead th.full { color: var(--fg); }
 
 /* ---------- evidence screenshots ---------- */
@@ -405,7 +405,7 @@ td { color: var(--fg-2); }
 .copy svg { width: 13px; height: 13px; }
 .copy.ok { color: var(--pass); border-color: rgba(127, 191, 142, 0.5); }
 .code pre { margin: 0; padding: 16px 18px; overflow-x: auto; font-size: 13.5px; line-height: 1.7; color: var(--fg); }
-.code .c { color: #7b726a; }
+.code .c { color: #8f867d; }
 .notes { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: 14.5px; color: var(--muted); }
 .notes li { padding-left: 18px; position: relative; }
 .notes li::before { content: "·"; position: absolute; left: 4px; color: var(--ember); font-weight: 700; }

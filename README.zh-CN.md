@@ -271,6 +271,7 @@ Skill 要求按你批准的提交策略，一个任务一个小提交，默认�
 - [Skill 定义（`SKILL.md`）](./skills/hepha/SKILL.md) · [守卫规则](./rules/hepha-guard.mdc)
 - [运行时 Schema](./skills/hepha/references/runtime-schema.md) · [Spec、TDD 与角色隔离](./skills/hepha/references/spec-tdd-sdd.md) · [质量门禁](./skills/hepha/references/validation_quality-gates.md)
 - [个人 Wiki 与资产生命周期](./skills/hepha/references/personal-wiki.md) · [拆解模式](./skills/hepha/references/decomposition-patterns.md)
+- 官网：见 [`website/`](./website)（纯静态、无需构建，部署说明见其中的 README）
 - [更新日志](./CHANGELOG.md) · [品牌素材](./docs/assets/brand) · [推广文案](./docs/marketing/promotion.md) · [ClawHub 主页](https://clawhub.ai/melonlee/hepha-skill)
 
 ## 参与贡献
