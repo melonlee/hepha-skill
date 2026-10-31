@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="261" height="80" viewBox="0 0 261 80" role="img" aria-label="hepha">
+<title>hepha</title>
+<path d="M3.75 0 V60 M3.75 40 A18 18 0 0 1 39.75 40 V60 M94 40 A18 18 0 1 0 88.73 52.73 M112.25 20 V80 M112.25 40 A18 18 0 1 1 112.25 40.01 M166.75 0 V60 M166.75 40 A18 18 0 0 1 202.75 40 V60 M257 40 A18 18 0 1 0 257 40.01 M257 20 V60" fill="none" stroke="#F5F0E8" stroke-width="7.5" stroke-linecap="butt" stroke-linejoin="round"/>
+  <path d="M61.75 40 H97.75" stroke="#F26A2E" stroke-width="7.5" stroke-linecap="butt"/>
+</svg>

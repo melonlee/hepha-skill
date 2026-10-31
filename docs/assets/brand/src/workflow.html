@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hepha — workflow infographic (1600×900)</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  body { color: var(--ink); background: var(--paper); }
+  .wrap { width: 100vw; height: 100vh; padding: 56px 64px 48px; display: flex; flex-direction: column;
+    background: radial-gradient(50% 50% at 90% 0%, rgba(242,106,46,.10), transparent 70%), var(--paper); }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .top img { height: 40px; }
+  h1 { margin-top: 26px; font-size: 40px; font-weight: 700; letter-spacing: -0.02em; }
+  h1 em { font-style: normal; color: var(--ember); }
+  .lead { margin-top: 8px; font-size: 18px; color: #6B625A; }
+  .eyebrow { color: #B4521F; }
+
+  .groups { margin-top: 40px; display: grid; grid-template-columns: 3fr 3fr 1fr 2fr 1fr; gap: 14px; }
+  .g { border-top: 3px solid #D9D0C3; padding-top: 10px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #8A8077; }
+  .g.hot { border-color: var(--ember); color: #B4521F; }
+
+  .steps { margin-top: 14px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 14px; }
+  .s { position: relative; background: #FFFDF9; border: 1px solid #E2D9CC; border-radius: 12px; padding: 14px 12px 14px; min-height: 250px; display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(0,0,0,.03); }
+  .s.hot { border-color: rgba(242,106,46,.55); background: #FFF6EF; }
+  .s .n { font-family: var(--mono); font-size: 11px; color: #A59A8F; }
+  .s h3 { margin-top: 6px; font-family: var(--mono); font-size: 15px; font-weight: 700; letter-spacing: .02em; }
+  .s.hot h3 { color: #C9531E; }
+  .s p { margin-top: 10px; font-size: 13.5px; line-height: 1.45; color: #4A433D; }
+  .s code { display: block; margin-top: auto; padding-top: 10px; font-family: var(--mono); font-size: 11px; line-height: 1.5; color: #7A7068; word-break: break-word; border-top: 1px dashed #E2D9CC; }
+  .s:not(:last-child)::after { content: "→"; position: absolute; right: -13px; top: 18px; font-size: 13px; color: #B9AFA3; }
+
+  .gates { margin-top: 12px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 14px; }
+  .gate { grid-column: span 1; font-family: var(--mono); font-size: 11.5px; color: #fff; background: var(--ink); border-radius: 6px; padding: 6px 8px; text-align: center; }
+  .gate b { color: var(--ember-3); font-weight: 500; }
+
+  .lite { margin-top: 30px; display: grid; gap: 8px; }
+  .mode { display: grid; grid-template-columns: repeat(10, 1fr); gap: 14px; align-items: center; }
+  .mode .lbl { grid-column: 1 / -1; font-size: 13.5px; font-weight: 600; display: flex; gap: 10px; align-items: baseline; }
+  .mode .lbl small { font-weight: 400; color: #8A8077; font-size: 12.5px; }
+  .mode i { height: 9px; border-radius: 99px; background: #E5DDD1; }
+  .mode i.on { background: var(--ember); }
+  .mode i.opt { background: repeating-linear-gradient(90deg, var(--ember-3) 0 8px, transparent 8px 13px); }
+  .legend { margin-top: 4px; font-size: 12px; color: #8A8077; display: flex; gap: 18px; }
+  .legend span::before { content: ""; display: inline-block; width: 22px; height: 7px; border-radius: 9px; margin-right: 6px; vertical-align: middle; background: var(--ember); }
+  .legend span.o::before { background: repeating-linear-gradient(90deg, var(--ember-3) 0 6px, transparent 6px 9px); }
+  .legend span.x::before { background: #E5DDD1; }
+  .bottom { margin-top: auto; display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 16px; }
+  .box { border: 1px solid #E2D9CC; border-radius: 12px; padding: 16px 18px; background: rgba(255,255,255,.55); }
+  .box h4 { font-size: 15px; }
+  .box p { margin-top: 6px; font-size: 13.5px; line-height: 1.5; color: #5A524B; }
+  .box code { font-family: var(--mono); font-size: 12px; color: #7A7068; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="eyebrow">The Hepha loop · one ready task per round</div>
+      <h1>Every step leaves <em>evidence the CLI can check</em>.</h1>
+      <p class="lead">JSON in <span class="mono">.hepha/</span> is the source of truth; Markdown is the reading layer. A task cannot reach <span class="mono">done</span> while a gate is open.</p>
+    </div>
+    <img src="../hepha-logo.svg" alt="Hepha">
+  </div>
+
+  <div class="groups">
+    <div class="g"><span>Plan</span></div>
+    <div class="g hot"><span>Forge · TDD</span></div>
+    <div class="g"><span>Temper</span></div>
+    <div class="g"><span>Record</span></div>
+    <div class="g"><span>Ship</span></div>
+  </div>
+
+  <div class="steps">
+    <div class="s"><span class="n">01</span><h3>SPEC</h3><p>Goals, non-goals, Given/When/Then scenarios with stable IDs.</p><code>specs/SPEC-001.md</code></div>
+    <div class="s"><span class="n">02</span><h3>PLAN</h3><p>Task graph with acceptance, risk, test commands, asset policy.</p><code>backlog.json<br>hepha validate</code></div>
+    <div class="s"><span class="n">03</span><h3>RESEARCH</h3><p>Only for new tools, architecture or real multi-option choices.</p><code>decision-log.md</code></div>
+    <div class="s hot"><span class="n">04</span><h3>RED</h3><p>Write the test first. It must actually fail.</p><code>record-check<br>--phase red<br>exit ≠ 0</code></div>
+    <div class="s hot"><span class="n">05</span><h3>GREEN</h3><p>Smallest implementation that passes.</p><code>--phase green<br>exit 0</code></div>
+    <div class="s hot"><span class="n">06</span><h3>REGRESSION</h3><p>Related suite still passes after refactor.</p><code>--phase regression<br>exit 0</code></div>
+    <div class="s"><span class="n">07</span><h3>REVIEW</h3><p>Spec review and code review, separately. Then human approval.</p><code>record-review<br>spec · code · human</code></div>
+    <div class="s"><span class="n">08</span><h3>SUMMARY</h3><p>What happened and how it was proven.</p><code>summary/&lt;date&gt;/<br>&lt;person&gt;/TASK.md</code></div>
+    <div class="s"><span class="n">09</span><h3>WIKI</h3><p>Only reusable, redacted conclusions with provenance.</p><code>candidates →<br>publish-asset</code></div>
+    <div class="s"><span class="n">10</span><h3>COMMIT</h3><p>One small conventional commit per task.</p><code>transition --to done<br>build-index</code></div>
+  </div>
+
+  <div class="gates">
+    <div></div><div class="gate"><b>doing</b> · contract fingerprint</div><div></div><div></div><div></div><div class="gate"><b>review</b> gate</div><div></div><div></div><div></div><div class="gate"><b>done</b> gate</div>
+  </div>
+
+  <div class="lite">
+    <div class="mode"><div class="lbl">full mode <small>default</small></div>
+      <i class="on"></i><i class="on"></i><i class="opt"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="opt"></i><i class="on"></i></div>
+    <div class="mode"><div class="lbl">lite mode <small>only for risk: low and asset_policy: none — Spec refs, RED, GREEN, code review, approval</small></div>
+      <i class="on"></i><i class="on"></i><i class="opt"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i></i><i></i><i class="on"></i></div>
+    <div class="legend"><span>required</span><span class="o">when needed / by policy</span><span class="x">skipped</span></div>
+  </div>
+
+  <div class="bottom">
+    <div class="box"><h4>Contract fingerprint</h4><p>Entering <code>doing</code> hashes acceptance, tests, Spec refs, mode and asset policy. Editing them mid-task fails the next gate — you re-plan explicitly instead of lowering the bar.</p></div>
+    <div class="box"><h4>Local review UI</h4><p><code>hepha-server --root .</code> — read-only timeline, task evidence, Wiki, search and Spec → Task → Test → Commit lineage.</p></div>
+    <div class="box"><h4>Personal Wiki</h4><p><code>sync-personal</code> copies published, non-confidential assets to <code>~/.hepha/wiki</code> with a cross-project index.</p></div>
+  </div>
+</div>
+</body>
+</html>

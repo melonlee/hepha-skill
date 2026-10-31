@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Hepha">
+<title>Hepha</title>
+<g transform="translate(0 7)">
+  <rect x="24" y="12" width="22" height="5" rx="0.8" fill="#F26A2E"/>
+  <rect x="48" y="9" width="4" height="4" rx="0.5" fill="#F26A2E"/>
+  <rect x="54" y="4.5" width="3" height="3" rx="0.4" fill="#F7934C"/>
+  <rect x="58.5" y="0.8" width="2" height="2" rx="0.3" fill="#FBB46E"/>
+  <path fill="#1A1614" d="M3 19 H59 V26.5 Q59 28.5 57 28.5 H46.5 Q42 28.5 42 33 V40 H49 Q52 40 52 43 V49 H16 V43 Q16 40 19 40 H26 V33 Q26 28.5 21.5 28.5 Q10 28.5 3 19 Z"/>
+</g>
+</svg>

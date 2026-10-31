@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hepha — README banner (1280×400)</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .canvas { display: grid; grid-template-columns: 1fr 440px; gap: 48px; padding: 56px 60px; align-items: center; }
+  .logo { height: 50px; display: block; margin-bottom: 30px; width: auto; }
+  h1 { font-size: 40px; line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; }
+  h1 em { font-style: normal; color: var(--ember); }
+  p.sub { margin-top: 14px; font-size: 17px; line-height: 1.5; color: var(--muted); max-width: 620px; }
+  .loop { margin-top: 26px; font-size: 11px; gap: 4px; }
+  .loop span { padding: 4px 7px; }
+  .row { grid-template-columns: 96px 1fr auto; }
+  .card .rows { font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div>
+    <img class="logo" src="../hepha-logo-dark.svg" alt="Hepha">
+    <h1>Big requirements in.<br><em>Small, proven commits</em> out.</h1>
+    <p class="sub">An agent skill + zero-dependency CLI for Claude Code and Codex. A task becomes <span style="color:var(--paper-2)">done</span> only when real test runs and reviews are on record.</p>
+    <div class="loop">
+      <span>SPEC</span><i>→</i><span>PLAN</span><i>→</i><span>RESEARCH</span><i>→</i><span class="hot">RED</span><i>→</i><span class="hot">GREEN</span><i>→</i><span>REGRESSION</span><i>→</i><span>REVIEW</span><i>→</i><span>SUMMARY</span><i>→</i><span>WIKI</span><i>→</i><span>COMMIT</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="dots"><b></b><b></b><b></b></div>.hepha/evidence/TASK-002.json</div>
+    <div class="rows">
+      <div class="row"><span class="k">red</span><span class="v">node --test test/slugify.test.js</span><span class="pill fail">exit 1</span></div>
+      <div class="row"><span class="k">green</span><span class="v">node --test test/slugify.test.js</span><span class="pill pass">exit 0</span></div>
+      <div class="row"><span class="k">regression</span><span class="v">npm test --silent</span><span class="pill pass">exit 0</span></div>
+      <div class="row"><span class="k">spec review</span><span class="v">claude-spec-reviewer</span><span class="pill pass">passed</span></div>
+      <div class="row"><span class="k">code review</span><span class="v">claude-code-reviewer</span><span class="pill pass">passed</span></div>
+      <div class="row"><span class="k">transition</span><span class="v">review → done · gates passed</span><span class="pill done">done</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

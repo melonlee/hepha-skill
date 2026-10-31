@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Hepha — 中文海报 (1080×1440)</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  body { font-family: "PingFang SC", var(--sans); }
+  .canvas { padding: 84px 84px 72px; display: flex; flex-direction: column;
+    background:
+      radial-gradient(70% 45% at 85% 8%, rgba(242,106,46,.22), transparent 62%),
+      radial-gradient(60% 40% at 0% 100%, rgba(242,106,46,.08), transparent 70%), var(--ink); }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .top img { height: 52px; }
+  .tag { font-size: 22px; color: var(--muted); letter-spacing: .08em; }
+  h1 { margin-top: 84px; font-size: 92px; line-height: 1.16; font-weight: 600; letter-spacing: -0.01em; }
+  h1 em { font-style: normal; color: var(--ember); }
+  .sub { margin-top: 30px; font-size: 32px; line-height: 1.55; color: var(--muted); }
+  .sub b { color: var(--paper); font-weight: 500; }
+
+  .stages { margin-top: 64px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .st { border: 1px solid var(--line); border-radius: 16px; padding: 20px 16px 18px; background: rgba(255,255,255,.02); }
+  .st.hot { border-color: rgba(242,106,46,.6); background: linear-gradient(180deg, rgba(242,106,46,.12), rgba(242,106,46,.03)); }
+  .st h4 { font-size: 30px; font-weight: 600; }
+  .st.hot h4 { color: var(--ember-3); }
+  .st p { margin-top: 10px; font-family: var(--mono); font-size: 15px; line-height: 1.6; color: var(--muted); }
+
+  .term { margin-top: 48px; }
+  .term .rows { padding: 22px 26px 24px; font-size: 22px; line-height: 1.7; }
+  .term .cmd { color: var(--paper-2); }
+  .term .cmd::before { content: "$ "; color: var(--muted-2); }
+  .term .err { color: var(--fail); }
+  .term .note { color: var(--muted-2); font-size: 18px; margin-top: 8px; }
+
+  .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; max-width: 560px; }
+  .chips span { font-size: 20px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--paper-2); }
+  .url { white-space: nowrap; font-family: var(--mono); font-size: 20px; color: var(--muted); text-align: right; line-height: 1.6; }
+  .url b { color: var(--paper); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="top"><img src="../hepha-logo-dark.svg" alt="Hepha"><span class="tag">AI 编码 · 开源 Skill</span></div>
+
+  <h1>让 AI 写的代码<br><em>每一步都有证据</em></h1>
+  <p class="sub">把大需求锻造成<b>小而可验证</b>的提交：<br>先写 Spec，测试先红后绿，双审查通过才算完成。</p>
+
+  <div class="stages">
+    <div class="st"><h4>规划</h4><p>SPEC<br>PLAN<br>RESEARCH</p></div>
+    <div class="st hot"><h4>锻打</h4><p>RED<br>GREEN<br>REGRESSION</p></div>
+    <div class="st"><h4>淬火</h4><p>SPEC REVIEW<br>CODE REVIEW</p></div>
+    <div class="st"><h4>沉淀</h4><p>SUMMARY<br>WIKI</p></div>
+    <div class="st"><h4>交付</h4><p>COMMIT</p></div>
+  </div>
+
+  <div class="card term">
+    <div class="card-head"><div class="dots"><b></b><b></b><b></b></div>门禁真实拒绝记录 · examples/slugify</div>
+    <div class="rows">
+      <div class="cmd">hepha transition --task TASK-001 --to done</div>
+      <div class="err">Hepha: 状态门禁未通过：</div>
+      <div class="err">缺少人工批准</div>
+      <div class="err">缺少任务 summary</div>
+      <div class="err">缺少资产候选</div>
+      <div class="note"># 证据不全，任务就不能标记为 done</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="chips"><span>Claude Code</span><span>Codex</span><span>零依赖 Node CLI</span><span>lite 小任务模式</span><span>本地 Review 页面</span><span>个人工程 Wiki</span></div>
+    <div class="url">MIT 开源<br><b>github.com/melonlee/hepha-skill</b></div>
+  </div>
+</div>
+</body>
+</html>
