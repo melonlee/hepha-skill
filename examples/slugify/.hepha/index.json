@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-31T15:20:14.047Z",
+  "generated_at": "2026-10-31T15:22:07.674Z",
   "summaries": [
     {
       "task_id": "TASK-001",
@@ -11,9 +11,48 @@
       "commit": "self",
       "file": "2026-10-31/melonlee/TASK-001.md",
       "search_text": "core slugify: lowercase, hyphen separators, input validation # task-001: core slugify ## goal deliver the smallest useful `slugify(text)`: lowercase, every run of non-alphanumeric characters becomes one hyphen, no leading/trailing hyphen, and a `typeerror` for non-strings. non-goal for this task: accented letters (task-002) and length limits (task-003). ## acceptance trace | acceptance | scenario | test | result | |---|---|---|---| | ac-001 | sc-001 | `ac-001 turns words and punctuation into a lowercase hyphenated slug` | pass | | ac-002 | sc-002 | `ac-002 collapses separator runs and trims leading/trailing hyphens` | pass | | ac-003 | sc-003 | `ac-003 rejects non-string input with a typeerror` | pass | | ac-004 | edge case | `ac-004 returns an empty string when nothing slug-worthy remains` | pass | ## tdd evidence recorded by `hepha record-check` in `.hepha/evidence/task-001.json`. | phase | command | exit | meaning | |---|---|---:|---| | red | `node --test test/slugify.test.js` | 1 | 4/4 tests fail against a `not implemented` stub | | green | `node --test test/slugify.test.js` | 1 | first attempt ran before the implementation was saved; gate kept the task in `doing` | | regression | `npm test --silent` | 1 | same cause as above | | green | `node --test test/slugify.test.js` | 0 | 4/4 pass with the minimal implementation | | regression | `npm test --silent` | 0 | full example suite passes | ## what changed - `src/slugify.js`: type guard, `tolowercase()`, `/[^a-z0-9]+/g → \"-\"`, trim hyphens. - `test/slugify.test.js`: one test per acceptance criterion, named by ac id. - `package.json`: `npm test` runs the suite with the built-in runner. ## reviews - spec review (claude-spec-reviewer): passed — each ac maps to exactly one test. - code review (claude-code-reviewer): passed — notes that accented letters are currently treated as separators (`crème` → `cr-me`); that is task-002's scope. - human approval: recorded after this summary. - browser check: not applicable (library, no ui). ## asset candidate - policy: `candidate` - candidate: `.hepha/wiki/candidates/chk-001.md` — edge cases worth testing for any slug function. ## risks and follow-ups - non-ascii letters are dropped entirely until task-002 lands."
+    },
+    {
+      "task_id": "TASK-002",
+      "title": "Fold accented Latin letters to ASCII",
+      "state": "review",
+      "date": "2026-10-31",
+      "person": "melonlee",
+      "commit": "self",
+      "file": "2026-10-31/melonlee/TASK-002.md",
+      "search_text": "fold accented latin letters to ascii # task-002: fold accented latin letters to ascii ## goal `crème brûlée à la carte` must become `creme-brulee-a-la-carte` instead of `cr-me-br-l-e-la-carte`. non-goal: transliterating non-latin scripts or locale rules such as `ß` → `ss`. ## research four options compared in `decision-log.md` (dec-001). chosen: `normalize(\"nfkd\")` + strip `\\p{m}`. a probe showed nfd would miss ligatures and full-width letters, and that `ø`, `ß`, `ł` are not decomposable — accepted as a documented limitation. ## acceptance trace | acceptance | scenario | test | result | |---|---|---|---| | ac-005 | sc-004 | `ac-005 folds accented latin letters to their ascii base letter` | pass | | ac-006 | non-goal guard | `ac-006 does not transliterate non-latin scripts` | pass | ## tdd evidence | phase | command | exit | meaning | |---|---|---:|---| | red | `node --test test/slugify.test.js` | 1 | ac-005 failed (`cr-me-br-l-e-...`); ac-006 already passed — it guards existing behaviour | | green | `node --test test/slugify.test.js` | 0 | 6/6 pass | | regression | `npm test --silent` | 0 | 6/6 pass, task-001 behaviour unchanged | ## what changed - `src/slugify.js`: two lines — `normalize(\"nfkd\")` and `replace(/\\p{m}+/gu, \"\")` before lowercasing. - `test/slugify.test.js`: ac-005, ac-006. - `.hepha/decision-log.md`: dec-001. ## reviews - spec review: passed. code review: passed (see evidence notes). human approval recorded after this summary. ## asset - policy: `required` → published `pat-001` \"strip diacritics with nfkd + \\p{m}\". ## risks and follow-ups - scandinavian/german/polish users get partially folded slugs (`søren` → `s-ren`). revisit only with a concrete need."
     }
   ],
   "assets": [
+    {
+      "asset_id": "PAT-001",
+      "type": "pattern",
+      "title": "Strip diacritics in JavaScript with NFKD + \\\\\\\\p{M}",
+      "status": "published",
+      "tags": [
+        "unicode",
+        "slug",
+        "javascript",
+        "normalization"
+      ],
+      "source_tasks": [
+        "TASK-002"
+      ],
+      "source_specs": [
+        "SPEC-001"
+      ],
+      "source_tests": [
+        "test/slugify.test.js"
+      ],
+      "source_commits": [
+        "self"
+      ],
+      "confidence": "verified",
+      "sensitivity": "personal",
+      "updated_at": "2026-10-31T15:22:07.551Z",
+      "file": "assets/PAT-001.md",
+      "search_text": "strip diacritics in javascript with nfkd + \\\\\\\\p{m} pattern unicode slug javascript normalization # strip diacritics in javascript with nfkd + \\p{m} ## conclusion to fold accented latin letters to ascii without a dependency: ```js text.normalize(\"nfkd\").replace(/\\p{m}+/gu, \"\") ``` prefer **nfkd** over nfd: it additionally folds compatibility characters (`fi` → `fi`, full-width `abc` → `abc`). ## when it applies - slugs, search keys, file names, sort keys for latin-script text. - any node.js ≥ 10 / modern browser (`\\p{...}` needs the `u` flag). ## when it does not - letters that are not \"base letter + combining mark\" survive unchanged: `ø`, `ß`, `ł`, `æ`, `đ`. handle them with an explicit table only if users need it. - non-latin scripts are not transliterated (`你好` stays `你好`). - do not use it to display names — it is lossy. ## how to verify ```text \"crème brûlée\" -> \"creme brulee\" \"final abc\" -> \"final abc\" \"søren\" -> \"søren\" (unchanged, known limitation) ``` ## source task-002 under spec-001/sc-004. the test `ac-005` failed before the change and passed after it; options compared in dec-001."
+    },
     {
       "asset_id": "CHK-001",
       "type": "checklist",

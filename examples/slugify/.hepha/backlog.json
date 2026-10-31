@@ -61,7 +61,7 @@
     {
       "id": "TASK-002",
       "title": "Fold accented Latin letters to ASCII",
-      "state": "todo",
+      "state": "done",
       "mode": "full",
       "depends_on": [
         "TASK-001"
@@ -100,7 +100,8 @@
         "candidate_types": [
           "pattern"
         ]
-      }
+      },
+      "updated_at": "2026-10-31T15:22:07.625Z"
     },
     {
       "id": "TASK-003",

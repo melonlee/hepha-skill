@@ -15,3 +15,13 @@ Progress: [███░░░░░░░] 1/3
 - Reviews: spec passed, code passed (noted accent gap → TASK-002).
 - A premature `transition --to done` was refused: missing approval, summary and asset candidate.
 - Summary + candidate CHK-001 written, approval recorded, task done.
+
+### Loop 2 — TASK-002 (full) · done
+
+Progress: [██████░░░░] 2/3
+
+- Research: DEC-001 compared NFKD, NFD, lookup table and npm packages; chose NFKD + `\p{M}`.
+- RED: AC-005 failed (`cr-me-br-l-e-…`); AC-006 guard test already passed.
+- GREEN 6/6, regression 6/6.
+- Reviews passed; PAT-001 published (asset policy `required`).
+- Finding while dogfooding: the published PAT-001 title showed `\\\\p{M}` — Hepha's frontmatter writer escaped backslashes that its reader never unescaped. Reported against the Hepha runtime.

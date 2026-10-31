@@ -23,7 +23,7 @@
 
 ### TASK-002：Fold accented Latin letters to ASCII
 
-- 状态：`todo`
+- 状态：`done`
 - 风险：`medium`
 - 模式：`full`
 - Spec：SPEC-001

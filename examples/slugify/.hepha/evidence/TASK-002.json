@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "task_id": "TASK-002",
+  "checks": [
+    {
+      "phase": "red",
+      "command": "node --test test/slugify.test.js",
+      "exit_code": 1,
+      "output": "✔ AC-001 turns words and punctuation into a lowercase hyphenated slug (0.660959ms)\n✔ AC-002 collapses separator runs and trims leading/trailing hyphens (0.066ms)\n✔ AC-003 rejects non-string input with a TypeError (0.218125ms)\n✔ AC-004 returns an empty string when nothing slug-worthy remains (0.056458ms)\n✖ AC-005 folds accented Latin letters to their ASCII base letter (0.679084ms)\n✔ AC-006 does not transliterate non-Latin scripts (0.463459ms)\nℹ tests 6\nℹ suites 0\nℹ pass 5\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 45.940833\n\n✖ failing tests:\n\ntest at test/slugify.test.js:27:1\n✖ AC-005 folds accented Latin letters to their ASCII base letter (0.679084ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'cr-me-br-l-e-la-carte'\n  - 'creme-brulee-a-la-carte'\n       ^\n  \n      at TestContext.<anonymous> (/Users/melon/Desktop/vibecoding/hepha-skill/examples/slugify/test/slugify.test.js:28:10)\n      at Test.runInAsyncScope (node:async_hooks:214:14)\n      at Test.run (node:internal/test_runner/test:1106:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)\n      at Test.postRun (node:internal/test_runner/test:1235:19)\n      at Test.run (node:internal/test_runner/test:1163:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'cr-me-br-l-e-la-carte',\n    expected: 'creme-brulee-a-la-carte',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+      "recorded_at": "2026-10-31T15:21:38.178Z"
+    },
+    {
+      "phase": "green",
+      "command": "node --test test/slugify.test.js",
+      "exit_code": 0,
+      "output": "✔ AC-001 turns words and punctuation into a lowercase hyphenated slug (0.808209ms)\n✔ AC-002 collapses separator runs and trims leading/trailing hyphens (0.066542ms)\n✔ AC-003 rejects non-string input with a TypeError (0.220583ms)\n✔ AC-004 returns an empty string when nothing slug-worthy remains (0.060042ms)\n✔ AC-005 folds accented Latin letters to their ASCII base letter (0.243208ms)\n✔ AC-006 does not transliterate non-Latin scripts (0.072125ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 44.538208\n",
+      "recorded_at": "2026-10-31T15:21:44.941Z"
+    },
+    {
+      "phase": "regression",
+      "command": "npm test --silent",
+      "exit_code": 0,
+      "output": "✔ AC-001 turns words and punctuation into a lowercase hyphenated slug (0.838542ms)\n✔ AC-002 collapses separator runs and trims leading/trailing hyphens (0.067166ms)\n✔ AC-003 rejects non-string input with a TypeError (0.214625ms)\n✔ AC-004 returns an empty string when nothing slug-worthy remains (0.058041ms)\n✔ AC-005 folds accented Latin letters to their ASCII base letter (0.236125ms)\n✔ AC-006 does not transliterate non-Latin scripts (0.068291ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 42.986375\n",
+      "recorded_at": "2026-10-31T15:21:45.159Z"
+    }
+  ],
+  "reviews": {
+    "spec": {
+      "status": "passed",
+      "reviewer": "claude-spec-reviewer",
+      "notes": "AC-005 (SC-004) verified by test. AC-006 is a guard for the non-goal and passed already at RED, which is expected. The extra ligature/full-width assertion follows from DEC-001, not new scope.",
+      "recorded_at": "2026-10-31T15:22:07.483Z"
+    },
+    "code": {
+      "status": "passed",
+      "reviewer": "claude-code-reviewer",
+      "notes": "Uses the u flag so \\p{M} is valid; normalisation happens before toLowerCase so folded capitals are lowered too. Limitation (o-slash, sharp s, l-stroke become separators) is documented in DEC-001 and PAT-001.",
+      "recorded_at": "2026-10-31T15:22:07.515Z"
+    },
+    "human": {
+      "status": "passed",
+      "reviewer": "melonlee (recorded by agent)",
+      "notes": "Sample run: an AI agent executed this loop and recorded the approval step itself. In a real project the owner records this review.",
+      "recorded_at": "2026-10-31T15:22:07.592Z"
+    }
+  },
+  "browser": [],
+  "updated_at": "2026-10-31T15:22:07.592Z",
+  "task_contract_hash": "c4583bd8c15786e1fb083d9c8a6f6b36893c7ee9675523d36e973433724ee20c",
+  "contract_recorded_at": "2026-10-31T15:21:03.270Z"
+}
