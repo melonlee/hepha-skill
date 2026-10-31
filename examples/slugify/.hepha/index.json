@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-31T15:22:07.674Z",
+  "generated_at": "2026-10-31T15:23:26.127Z",
   "summaries": [
     {
       "task_id": "TASK-001",
@@ -27,7 +27,7 @@
     {
       "asset_id": "PAT-001",
       "type": "pattern",
-      "title": "Strip diacritics in JavaScript with NFKD + \\\\\\\\p{M}",
+      "title": "Strip diacritics in JavaScript with NFKD + \\p{M}",
       "status": "published",
       "tags": [
         "unicode",
@@ -51,7 +51,7 @@
       "sensitivity": "personal",
       "updated_at": "2026-10-31T15:22:07.551Z",
       "file": "assets/PAT-001.md",
-      "search_text": "strip diacritics in javascript with nfkd + \\\\\\\\p{m} pattern unicode slug javascript normalization # strip diacritics in javascript with nfkd + \\p{m} ## conclusion to fold accented latin letters to ascii without a dependency: ```js text.normalize(\"nfkd\").replace(/\\p{m}+/gu, \"\") ``` prefer **nfkd** over nfd: it additionally folds compatibility characters (`fi` → `fi`, full-width `abc` → `abc`). ## when it applies - slugs, search keys, file names, sort keys for latin-script text. - any node.js ≥ 10 / modern browser (`\\p{...}` needs the `u` flag). ## when it does not - letters that are not \"base letter + combining mark\" survive unchanged: `ø`, `ß`, `ł`, `æ`, `đ`. handle them with an explicit table only if users need it. - non-latin scripts are not transliterated (`你好` stays `你好`). - do not use it to display names — it is lossy. ## how to verify ```text \"crème brûlée\" -> \"creme brulee\" \"final abc\" -> \"final abc\" \"søren\" -> \"søren\" (unchanged, known limitation) ``` ## source task-002 under spec-001/sc-004. the test `ac-005` failed before the change and passed after it; options compared in dec-001."
+      "search_text": "strip diacritics in javascript with nfkd + \\p{m} pattern unicode slug javascript normalization # strip diacritics in javascript with nfkd + \\p{m} ## conclusion to fold accented latin letters to ascii without a dependency: ```js text.normalize(\"nfkd\").replace(/\\p{m}+/gu, \"\") ``` prefer **nfkd** over nfd: it additionally folds compatibility characters (`fi` → `fi`, full-width `abc` → `abc`). ## when it applies - slugs, search keys, file names, sort keys for latin-script text. - any node.js ≥ 10 / modern browser (`\\p{...}` needs the `u` flag). ## when it does not - letters that are not \"base letter + combining mark\" survive unchanged: `ø`, `ß`, `ł`, `æ`, `đ`. handle them with an explicit table only if users need it. - non-latin scripts are not transliterated (`你好` stays `你好`). - do not use it to display names — it is lossy. ## how to verify ```text \"crème brûlée\" -> \"creme brulee\" \"final abc\" -> \"final abc\" \"søren\" -> \"søren\" (unchanged, known limitation) ``` ## source task-002 under spec-001/sc-004. the test `ac-005` failed before the change and passed after it; options compared in dec-001."
     },
     {
       "asset_id": "CHK-001",

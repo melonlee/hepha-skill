@@ -25,3 +25,4 @@ Progress: [██████░░░░] 2/3
 - GREEN 6/6, regression 6/6.
 - Reviews passed; PAT-001 published (asset policy `required`).
 - Finding while dogfooding: the published PAT-001 title showed `\\\\p{M}` — Hepha's frontmatter writer escaped backslashes that its reader never unescaped. Reported against the Hepha runtime.
+- Fixed upstream in `hepha-core.js` (`unquote` now reverses `quoteYaml` escaping, with a round-trip test); PAT-001's title line was corrected once and the index rebuilt.

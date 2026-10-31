@@ -673,7 +673,11 @@ function resolveCommitReferences(projectRoot, assetFile, commits) {
 }
 
 function unquote(value) {
-  return String(value || "").replace(/^(["'])([\s\S]*)\1$/, "$2");
+  const text = String(value || "");
+  const match = text.match(/^(["'])([\s\S]*)\1$/);
+  if (!match) return text;
+  // quoteYaml escapes \ and " inside double quotes; undo exactly that so values round-trip.
+  return match[1] === '"' ? match[2].replace(/\\(["\\])/g, "$1") : match[2];
 }
 
 function quoteYaml(value) {

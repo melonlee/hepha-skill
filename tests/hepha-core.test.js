@@ -13,6 +13,7 @@ const {
   recordCheck,
   recordReview,
   slugifyPerson,
+  stringifyFrontmatter,
   syncPersonalWiki,
   transitionTask,
   validateBacklog,
@@ -191,4 +192,12 @@ test("parseFrontmatter supports scalar and inline array metadata", () => {
   assert.equal(parsed.frontmatter.title, "示例");
   assert.deepEqual(parsed.frontmatter.tags, ["a", "b"]);
   assert.equal(parsed.body.trim(), "# 正文");
+});
+
+test("frontmatter values with backslashes and quotes survive a write/read round trip", () => {
+  const original = { title: 'Strip \\p{M} and say "hi"', tags: ['a\\b', 'c"d'] };
+  const once = parseFrontmatter(`${stringifyFrontmatter(original)}# body\n`).frontmatter;
+  assert.deepEqual(once, original);
+  const twice = parseFrontmatter(`${stringifyFrontmatter(once)}# body\n`).frontmatter;
+  assert.deepEqual(twice, original);
 });
