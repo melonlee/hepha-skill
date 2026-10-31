@@ -363,99 +363,99 @@
         <div class="install-layout">
           <div class="install-intro">
             <div class="section-head">
-          <span class="eyebrow"><span class="n">05</span> Get started</span>
-          <h2 id="install-title">Clone once. Link the skill. Invoke it.</h2>
-          <p>The skill is never triggered implicitly: you invoke it. The npm package is prepared but <strong>not published yet</strong>, so install from GitHub.</p>
-        </div>
+              <span class="eyebrow"><span class="n">05</span> Get started</span>
+              <h2 id="install-title">Clone once. Link the skill. Invoke it.</h2>
+              <p>The skill is never triggered implicitly: you invoke it. The npm package is prepared but <strong>not published yet</strong>, so install from GitHub.</p>
+            </div>
             <ul class="notes">
-          <li><strong>One project only (Claude Code):</strong> copy <code>skills/hepha</code> into the project’s <code>.claude/skills/</code> and commit it so your team gets it too.</li>
-          <li><strong>Guard rule (optional, recommended):</strong> <code>rules/hepha-guard.mdc</code> restates the hard stops. Copy it to <code>.claude/rules/hepha-guard.md</code>, to <code>.cursor/rules/</code>, or paste it into <code>AGENTS.md</code> for Codex.</li>
-          <li><strong>Any other agent</strong> that can read <code>SKILL.md</code> and run shell commands can follow the protocol; the CLI is plain Node.</li>
-        </ul>
+              <li><strong>One project only (Claude Code):</strong> copy <code>skills/hepha</code> into the project’s <code>.claude/skills/</code> and commit it so your team gets it too.</li>
+              <li><strong>Guard rule (optional, recommended):</strong> <code>rules/hepha-guard.mdc</code> restates the hard stops. Copy it to <code>.claude/rules/hepha-guard.md</code>, to <code>.cursor/rules/</code>, or paste it into <code>AGENTS.md</code> for Codex.</li>
+              <li><strong>Any other agent</strong> that can read <code>SKILL.md</code> and run shell commands can follow the protocol; the CLI is plain Node.</li>
+            </ul>
           </div>
           <div class="install-main">
             <div class="tabs" role="tablist" aria-label="Choose your agent">
-          <button class="tab" role="tab" id="t-cc" aria-controls="p-cc" aria-selected="true">Claude Code</button>
-          <button class="tab" role="tab" id="t-cx" aria-controls="p-cx" aria-selected="false">Codex</button>
-        </div>
+              <button class="tab" role="tab" id="t-cc" aria-controls="p-cc" aria-selected="true">Claude Code</button>
+              <button class="tab" role="tab" id="t-cx" aria-controls="p-cx" aria-selected="false">Codex</button>
+            </div>
 
-        <div class="install-grid" role="tabpanel" id="p-cc" aria-labelledby="t-cc">
-          <div class="istep">
-            <span class="bubble" aria-hidden="true">1</span>
-            <div>
-              <h3>Install the skill</h3>
-              <p>A personal skill, available in all your projects.</p>
-              <div class="code">
-                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+            <div class="install-grid" role="tabpanel" id="p-cc" aria-labelledby="t-cc">
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">1</span>
+                <div>
+                  <h3>Install the skill</h3>
+                  <p>A personal skill, available in all your projects.</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
 <pre><code>git clone https://github.com/melonlee/hepha-skill.git
 cd hepha-skill
 mkdir -p ~/.claude/skills &amp;&amp; ln -s "$PWD/skills/hepha" ~/.claude/skills/hepha</code></pre>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="istep">
-            <span class="bubble" aria-hidden="true">2</span>
-            <div>
-              <h3>Ask your agent to run it</h3>
-              <p>The agent initialises <code>.hepha/</code>, writes the Spec and a validated backlog, then works one task per loop.</p>
-              <div class="code">
-                <div class="code-head"><span>Claude Code prompt</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">2</span>
+                <div>
+                  <h3>Ask your agent to run it</h3>
+                  <p>The agent initialises <code>.hepha/</code>, writes the Spec and a validated backlog, then works one task per loop.</p>
+                  <div class="code">
+                    <div class="code-head"><span>Claude Code prompt</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
 <pre><code>/hepha Build CSV export for the orders page.
 Use English for specs and summaries. Ask me before marking any task done.</code></pre>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="istep">
-            <span class="bubble" aria-hidden="true">3</span>
-            <div>
-              <h3>Review what happened</h3>
-              <p>Open <code>http://localhost:3000</code>. The server is read-only and binds to <code>127.0.0.1</code>.</p>
-              <div class="code">
-                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">3</span>
+                <div>
+                  <h3>Review what happened</h3>
+                  <p>Open <code>http://localhost:3000</code>. The server is read-only and binds to <code>127.0.0.1</code>.</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
 <pre><code>node ~/.claude/skills/hepha/scripts/hepha-server.js --root . --port 3000</code></pre>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div class="install-grid" role="tabpanel" id="p-cx" aria-labelledby="t-cx">
-          <div class="istep">
-            <span class="bubble" aria-hidden="true">1</span>
-            <div>
-              <h3>Install the skill</h3>
-              <p>A user-level skill for Codex.</p>
-              <div class="code">
-                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+            <div class="install-grid" role="tabpanel" id="p-cx" aria-labelledby="t-cx">
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">1</span>
+                <div>
+                  <h3>Install the skill</h3>
+                  <p>A user-level skill for Codex.</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
 <pre><code>git clone https://github.com/melonlee/hepha-skill.git
 cd hepha-skill
 mkdir -p ~/.agents/skills &amp;&amp; ln -s "$PWD/skills/hepha" ~/.agents/skills/hepha</code></pre>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="istep">
-            <span class="bubble" aria-hidden="true">2</span>
-            <div>
-              <h3>Ask your agent to run it</h3>
-              <p>The agent initialises <code>.hepha/</code>, writes the Spec and a validated backlog, then works one task per loop.</p>
-              <div class="code">
-                <div class="code-head"><span>Codex prompt</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">2</span>
+                <div>
+                  <h3>Ask your agent to run it</h3>
+                  <p>The agent initialises <code>.hepha/</code>, writes the Spec and a validated backlog, then works one task per loop.</p>
+                  <div class="code">
+                    <div class="code-head"><span>Codex prompt</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
 <pre><code>$hepha Build CSV export for the orders page.
 Use English for specs and summaries. Ask me before marking any task done.</code></pre>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="istep">
-            <span class="bubble" aria-hidden="true">3</span>
-            <div>
-              <h3>Review what happened</h3>
-              <p>Open <code>http://localhost:3000</code>. The server is read-only and binds to <code>127.0.0.1</code>.</p>
-              <div class="code">
-                <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">3</span>
+                <div>
+                  <h3>Review what happened</h3>
+                  <p>Open <code>http://localhost:3000</code>. The server is read-only and binds to <code>127.0.0.1</code>.</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="Copied"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">Copy</span></button></div>
 <pre><code>node ~/.agents/skills/hepha/scripts/hepha-server.js --root . --port 3000</code></pre>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
           </div>
         </div>
 

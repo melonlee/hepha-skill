@@ -457,6 +457,14 @@ td { color: var(--fg-2); }
 .foot a { color: var(--fg-2); text-decoration: none; }
 .foot a:hover { color: var(--ember-3); }
 
+/* ---------- Chinese typography ---------- */
+:lang(zh) h1, :lang(zh) h2, :lang(zh) h3 { letter-spacing: -0.01em; }
+:lang(zh) .hero h1 { letter-spacing: -0.02em; line-height: 1.15; font-size: clamp(2.3rem, 4.3vw, 3.6rem); }
+.hero h1 .nb { display: inline-block; }
+:lang(zh) .section-head h2 { line-height: 1.22; }
+:lang(zh) .eyebrow, :lang(zh) .step .num, :lang(zh) .gate .refuse { letter-spacing: 0.08em; }
+:lang(zh) body, :lang(zh) .lede { line-height: 1.75; }
+
 /* ---------- responsive ---------- */
 @media (max-width: 1080px) {
   .nav-links { display: none; }

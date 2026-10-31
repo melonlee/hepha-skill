@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hepha：大需求进，小而可验证的提交出</title>
+  <meta name="description" content="Hepha 是一个面向 Claude Code 和 Codex 的 Agent Skill，配一个零依赖的 Node CLI：把大需求拆成小任务，只有真实测试记录和分开的审查都齐了，任务才算完成。" />
+  <meta name="theme-color" content="#100d0c" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Open Graph / Twitter。抓取方更认绝对地址：有了域名后见 website/README.md。 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Hepha" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:title" content="Hepha：大需求进，小而可验证的提交出" />
+  <meta property="og:description" content="Agent Skill + 零依赖 CLI，支持 Claude Code 和 Codex。真实的 RED/GREEN/regression 记录和分开的审查都齐了，任务才算完成。" />
+  <meta property="og:image" content="../assets/hepha-social-preview.png" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  <meta property="og:image:alt" content="Hepha：大需求进，小而可验证的提交出" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hepha：大需求进，小而可验证的提交出" />
+  <meta name="twitter:description" content="Agent Skill + 零依赖 CLI，支持 Claude Code 和 Codex。真实测试记录和分开的审查都齐了，任务才算完成。" />
+  <meta name="twitter:image" content="../assets/hepha-social-preview.png" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+  <link rel="alternate" hreflang="en" href="../" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <script src="../assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到正文</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="主导航">
+      <a class="brand" href="./" aria-label="Hepha 首页"><img src="../assets/hepha-logo-dark.svg" alt="Hepha" width="92" height="26" /></a>
+      <ul class="nav-links">
+        <li><a href="#how">工作原理</a></li>
+        <li><a href="#evidence">证据</a></li>
+        <li><a href="#wiki">个人 Wiki</a></li>
+        <li><a href="#install">安装</a></li>
+        <li><a href="#compare">对比</a></li>
+        <li><a href="#faq">常见问题</a></li>
+      </ul>
+      <div class="nav-right">
+        <a class="lang" href="../" hreflang="en" lang="en">EN</a>
+        <a class="btn btn-sm" href="https://github.com/melonlee/hepha-skill" aria-label="在 GitHub 上查看 Hepha">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span class="label">GitHub</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ============ 首屏 ============ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="pill"><b>Skill + CLI</b> 支持 Claude Code 与 Codex</p>
+            <h1 id="hero-title"><span>大需求进，</span> <span class="hot"><span class="nb">小而可验证的</span><span class="nb">提交出。</span></span></h1>
+            <p class="lede">Hepha 把大需求拆成小任务。只有<strong>真实的 RED、GREEN、regression 测试记录</strong>，以及<strong>分开进行的 Spec 审查、代码审查和人工批准</strong>都落了盘，任务才算完成。可复用的结论沉淀进你的个人工程 Wiki。</p>
+            <div class="cta">
+              <a class="btn btn-primary" href="#install">开始使用 <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="btn" href="https://github.com/melonlee/hepha-skill">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                GitHub
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/melonlee/hepha-skill/tree/main/examples">真实示例 <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+            <ul class="facts" aria-label="基本信息">
+              <li>MIT 许可</li>
+              <li>Node ≥ 18</li>
+              <li>零运行时依赖</li>
+              <li>纯本地，无遥测</li>
+            </ul>
+          </div>
+
+          <figure class="gate-card" data-gate-card>
+            <figcaption class="sr-only">示意：真实示例中的 TASK-001 依次通过 Hepha 门禁。RED 以退出码 1 失败，GREEN 和 regression 通过，spec、code、human 三项审查通过，最后转为 done 被接受。</figcaption>
+            <div class="card-bar">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="path">.hepha/evidence/TASK-001.json</span>
+              <span class="tag">mode: full</span>
+            </div>
+            <div class="track" aria-hidden="true">
+              <span class="fill"></span>
+              <div class="node red on"><span class="dot" data-idle="1" data-on="✕"></span><span class="lbl">RED</span></div>
+              <div class="node green on"><span class="dot" data-idle="2" data-on="✓"></span><span class="lbl">GREEN</span></div>
+              <div class="node review on"><span class="dot" data-idle="3" data-on="✓"></span><span class="lbl">REVIEW</span></div>
+              <div class="node done on"><span class="dot" data-idle="4" data-on="✓"></span><span class="lbl">DONE</span></div>
+            </div>
+            <ul class="log">
+              <li class="r1"><span class="k">red</span><span class="v">node --test test/slugify.test.js</span><span class="badge fail">exit 1</span></li>
+              <li class="r2"><span class="k">green</span><span class="v">node --test test/slugify.test.js</span><span class="badge pass">exit 0</span></li>
+              <li class="r2"><span class="k">regression</span><span class="v">npm test --silent</span><span class="badge pass">exit 0</span></li>
+              <li class="r3"><span class="k">spec review</span><span class="v">claude-spec-reviewer</span><span class="badge pass">passed</span></li>
+              <li class="r3"><span class="k">code review</span><span class="v">claude-code-reviewer</span><span class="badge pass">passed</span></li>
+              <li class="r3"><span class="k">human</span><span class="v">melonlee (recorded by agent)</span><span class="badge pass">passed</span></li>
+            </ul>
+            <div class="term-foot">
+              <div class="cmd">hepha transition --task TASK-001 --to done</div>
+              <div class="out">{ "ok": true, "task": { "id": "TASK-001", "state": <b>"done"</b> … } }</div>
+            </div>
+          </figure>
+        </div>
+
+        <div class="loopline" aria-label="Hepha 循环">
+          <span>SPEC</span><i aria-hidden="true">→</i><span>PLAN</span><i aria-hidden="true">→</i><span>RESEARCH</span><i aria-hidden="true">→</i><span class="hot">RED</span><i aria-hidden="true">→</i><span class="hot">GREEN</span><i aria-hidden="true">→</i><span class="hot">REGRESSION</span><i aria-hidden="true">→</i><span>REVIEW</span><i aria-hidden="true">→</i><span>SUMMARY</span><i aria-hidden="true">→</i><span>WIKI</span><i aria-hidden="true">→</i><span>COMMIT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 问题 ============ -->
+    <section class="block" id="problem" aria-labelledby="problem-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">01</span> 问题</span>
+          <h2 id="problem-title">“测试都通过了”只是一句话，Hepha 留下的是证据。</h2>
+          <p>让 Agent 连续跑一个大需求，最后留给你的是一大坨 diff、一长串对话和一句很自信的总结。事后能检查的，只有 diff 和 Agent <em>说过的话</em>。Hepha 改变的是跑完之后磁盘上留下了什么：Spec、代码和记录仍然由 Agent 来写；测试命令由 CLI 执行并记录结果，审查也由 CLI 记录。证据不全时，CLI 会拒绝推进任务状态。</p>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table class="versus stack">
+              <thead>
+                <tr><th scope="col">跑完之后，你能核实……</th><th scope="col">一次长时间 Agent 会话</th><th scope="col" class="hepha">一次 Hepha 交付</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">……当初约定的行为是什么？</th><td class="weak" data-label="长会话">也许在提示词里</td><td class="strong" data-label="Hepha"><code>specs/SPEC-*.md</code> 里有带编号的场景；每个任务有 Given/When/Then 验收条件，开工时固化指纹</td></tr>
+                <tr><th scope="row">……修复之前测试真的失败过？</th><td class="weak" data-label="长会话">碰巧做过、又能在对话里翻到才行</td><td class="strong" data-label="Hepha"><code>evidence/TASK-*.json</code> 里有 RED 的命令、非零退出码和输出</td></tr>
+                <tr><th scope="row">……现在测试是通过的？</th><td class="weak" data-label="长会话">Agent 的一句话</td><td class="strong" data-label="Hepha">GREEN、regression 记录，以及可以重跑的 <code>test_plan.commands</code></td></tr>
+                <tr><th scope="row">……Spec 和代码都审过？</th><td class="weak" data-label="长会话">通常混在一起，或者干脆跳过</td><td class="strong" data-label="Hepha"><code>spec</code>、<code>code</code>、<code>human</code> 三条独立审查记录，带审查人和备注</td></tr>
+                <tr><th scope="row">……哪个提交做了什么？</th><td class="weak" data-label="长会话">一个大 diff</td><td class="strong" data-label="Hepha">一个任务一个小提交；资产能追溯 Spec → Task → Test → Commit</td></tr>
+                <tr><th scope="row">……哪些值得复用？</th><td class="weak" data-label="长会话">埋在对话里</td><td class="strong" data-label="Hepha">按日期归档的 Summary，加上审核过、可以跨项目检索的 Wiki 资产</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="callout">
+          <span class="ic" aria-hidden="true">!</span>
+          <p><strong>Hepha 做不到的事：</strong>它判断不了测试<em>有没有意义</em>、审查<em>是否认真</em>。它能证明命令确实跑过、结果就是记录里那样，也能证明每一步审查都被显式记录了。把它当作审计记录和护栏，而不是判断力的替代品。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 工作原理 ============ -->
+    <section class="block" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">02</span> 工作原理</span>
+          <h2 id="how-title">每轮只做一个就绪任务，每一步都留下 CLI 能检查的东西。</h2>
+          <p><code>.hepha/</code> 里的 JSON 是事实源，Markdown 是阅读层。记录证据、推进任务状态，Agent 都通过调用 CLI 完成。</p>
+        </div>
+
+        <ol class="steps-grid" aria-label="循环步骤">
+          <li class="step"><span class="num">01 · 规划</span><h3>SPEC</h3><p>写清目标、非目标，以及带稳定编号的行为场景。</p><code>specs/SPEC-001.md</code></li>
+          <li class="step"><span class="num">02 · 规划</span><h3>PLAN</h3><p>每个任务都有 <code>spec_refs</code>、Given/When/Then 验收、风险、测试命令和资产策略。</p><code>hepha validate</code></li>
+          <li class="step"><span class="num">03 · 规划</span><h3>RESEARCH</h3><p>只在引入新工具、架构变更、安全或迁移风险、确实存在多个方案时才做。</p><code>decision-log.md</code></li>
+          <li class="step forge"><span class="num">04 · 锻造</span><h3>RED</h3><p>先写测试。命令由 CLI 亲自执行，而且必须真的失败。</p><code>record-check --phase red</code></li>
+          <li class="step forge"><span class="num">05 · 锻造</span><h3>GREEN</h3><p>用最小实现让测试通过；命令、退出码和输出都会保存。</p><code>--phase green</code></li>
+          <li class="step forge"><span class="num">06 · 锻造</span><h3>REGRESSION</h3><p>改动之后，更大范围的测试依然通过。</p><code>--phase regression</code></li>
+          <li class="step"><span class="num">07 · 淬炼</span><h3>REVIEW</h3><p>Spec 审查和代码审查分开记录，默认还要人工批准。</p><code>record-review</code></li>
+          <li class="step"><span class="num">08 · 记录</span><h3>SUMMARY</h3><p>为这一轮写一份事实性的 Summary。</p><code>summary/&lt;日期&gt;/&lt;人&gt;/</code></li>
+          <li class="step"><span class="num">09 · 记录</span><h3>WIKI</h3><p>可复用的结论先成为候选，经过审核和敏感信息检查才发布。</p><code>publish-asset</code></li>
+          <li class="step"><span class="num">10 · 交付</span><h3>COMMIT</h3><p>一个任务一个最小的 conventional commit，然后重建索引、同步资产。</p><code>build-index</code></li>
+        </ol>
+
+        <!-- 门禁 -->
+        <div class="sub" id="gates">
+          <h3>会说“不”的门禁</h3>
+          <p class="sub-lede"><code>hepha transition</code> 负责 <code>todo → doing → review → done</code> 状态机（另有 <code>blocked</code> / <code>skipped</code>），每一步都检查已记录的证据。缺什么，它会直接说出来，并以非零退出码结束。</p>
+
+          <div class="states" aria-hidden="true">
+            <span class="st">todo</span><span>→</span><span class="st">doing</span><span>→</span><span class="st">review</span><span>→</span><span class="st done">done</span><span class="side">· blocked · skipped</span>
+          </div>
+          <div class="gates">
+            <div class="gate">
+              <h4><span class="arr">→</span> doing</h4>
+              <p class="refuse">满足以下条件才放行</p>
+              <ul>
+                <li>依赖任务全部 <code>done</code>。</li>
+                <li>进入时固化任务契约指纹（验收、测试、Spec 引用、模式、资产策略）。</li>
+              </ul>
+            </div>
+            <div class="gate">
+              <h4><span class="arr">→</span> review</h4>
+              <p class="refuse">满足以下条件才放行</p>
+              <ul>
+                <li>记录里有失败的 RED、通过的 GREEN 和通过的 regression。</li>
+                <li>契约指纹没有变化。</li>
+              </ul>
+            </div>
+            <div class="gate">
+              <h4><span class="arr">→</span> done</h4>
+              <p class="refuse">满足以下条件才放行</p>
+              <ul>
+                <li>Spec 审查和代码审查通过。</li>
+                <li>有人工批准（除非 manifest 设置了 <code>approval_required: false</code>）。</li>
+                <li>Summary 存在，资产策略满足。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub split">
+          <div class="term" role="group" aria-label="真实示例中的门禁拒绝">
+            <div class="card-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="path">examples/slugify · 摘自 progress.md 与证据文件</span></div>
+<pre><code><span class="c"># 实现还没保存就跑了 GREEN，所以它以 1 退出</span>
+<span class="p">$ </span><span class="h">hepha transition --root . --task TASK-001 --to review</span>
+<span class="e">Hepha: 状态门禁未通过：
+缺少 GREEN 通过测试证据
+缺少 regression 通过证据</span>
+<span class="c"># 退出码 1</span>
+
+<span class="c"># 之后：还没写 Summary 就想标记 done</span>
+<span class="p">$ </span><span class="h">hepha transition --root . --task TASK-001 --to done</span>
+<span class="e">Hepha: 状态门禁未通过：
+缺少人工批准
+缺少任务 summary
+缺少资产候选</span>
+<span class="c"># 退出码 1</span></code></pre>
+          </div>
+          <div class="prose">
+            <h4>真实的拒绝，原样留档</h4>
+            <p><a href="https://github.com/melonlee/hepha-skill/tree/main/examples">真实示例</a>是从空目录开始、只用 CLI 完成的。过程中门禁拒绝了两次。那次失败的 GREEN 仍按顺序保存在 <code>evidence/TASK-001.json</code> 里：</p>
+            <div class="seq" aria-label="TASK-001 按顺序记录的检查">
+              <span class="f">red:1</span><span class="f">green:1</span><span class="f">regression:1</span><span class="ok">green:0</span><span class="ok">regression:0</span>
+            </div>
+            <p>证据只追加不覆盖，门禁读取的是最近一次运行。CI 每次运行都会重新校验示例的全部门禁。</p>
+          </div>
+        </div>
+
+        <!-- lite + 指纹 -->
+        <div class="sub split even">
+          <div>
+            <h3>full 还是 lite</h3>
+            <p class="sub-lede">小而低风险的改动可以声明 <code>"mode": "lite"</code>。只有 <code>risk: "low"</code> 且 <code>asset_policy: "none"</code> 时，validator 才接受 lite。</p>
+            <div class="table-wrap">
+              <table class="modes">
+                <thead><tr><th scope="col">门禁</th><th scope="col" class="full">full（默认）</th><th scope="col">lite</th></tr></thead>
+                <tbody>
+                  <tr><td>Spec 引用 + Given/When/Then</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>RED + GREEN</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>regression</td><td class="y">✓</td><td class="n">–</td></tr>
+                  <tr><td>Spec 审查</td><td class="y">✓</td><td class="n">–</td></tr>
+                  <tr><td>代码审查 + 批准</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>Summary</td><td class="y">✓</td><td class="n">–</td></tr>
+                  <tr><td>Wiki 资产</td><td>按策略</td><td class="n">不允许</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>契约指纹</h3>
+            <p class="sub-lede">进入 <code>doing</code> 时，CLI 保存任务契约的 SHA-256。做到一半想放宽验收条件、换掉测试或者改成 lite，下一道门禁就会拒绝。</p>
+            <div class="term">
+              <div class="card-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="path">.hepha/evidence/TASK-001.json</span></div>
+<pre><code><span class="h">"task_contract_hash"</span>: <span class="o">"fa67d99d67793423…f01c04db0f"</span>,
+<span class="h">"contract_recorded_at"</span>: <span class="o">"2026-10-31T15:17:50.211Z"</span>
+
+<span class="c"># 之后若契约发生变化：</span>
+<span class="e">任务契约已变更；请将任务标记 blocked、
+记录原因并重新规划，不得静默降低门禁</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 证据与回看 ============ -->
+    <section class="block" id="evidence" aria-labelledby="evidence-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">03</span> 证据与回看</span>
+          <h2 id="evidence-title">回看交付过程，而不是翻聊天记录。</h2>
+          <p><code>hepha-server</code> 把 <code>.hepha/</code> 渲染成一个本地只读站点：时间线、每条命令和审查记录、Wiki 卡片、搜索和来源谱系。下面是它在真实示例上运行的截图。</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Review 页面截图">
+          <button class="tab" role="tab" id="t-ov" aria-controls="p-ov" aria-selected="true">概览</button>
+          <button class="tab" role="tab" id="t-task" aria-controls="p-task" aria-selected="false">任务证据</button>
+          <button class="tab" role="tab" id="t-asset" aria-controls="p-asset" aria-selected="false">Wiki 资产</button>
+          <button class="tab" role="tab" id="t-search" aria-controls="p-search" aria-selected="false">搜索</button>
+        </div>
+        <div class="browser">
+          <div class="card-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">127.0.0.1:3000</span></div>
+          <div class="shot" role="tabpanel" id="p-ov" aria-labelledby="t-ov">
+            <figure><a href="../assets/review-index.webp" class="zoom"><img src="../assets/review-index.webp" width="1600" height="1075" alt="Hepha Review 概览页：任务与资产计数、搜索框、运行产物文件、PAT-001 与 CHK-001 两张个人 Wiki 卡片，以及任务时间线" /></a><figcaption><b>概览</b>：运行产物、Wiki 卡片、候选队列、任务时间线。</figcaption></figure>
+          </div>
+          <div class="shot" role="tabpanel" id="p-task" aria-labelledby="t-task">
+            <figure><a href="../assets/review-task.webp" class="zoom"><img src="../assets/review-task.webp" width="1600" height="1075" loading="lazy" alt="TASK-002 任务页：TDD 检查表中 red 退出码 1、green 退出码 0、regression 退出码 0，spec、code、human 三项审查均为 passed" /></a><figcaption><b>任务详情</b>：RED / GREEN / regression 记录与退出码，以及 spec / code / human 审查。</figcaption></figure>
+          </div>
+          <div class="shot" role="tabpanel" id="p-asset" aria-labelledby="t-asset">
+            <figure><a href="../assets/review-asset.webp" class="zoom"><img src="../assets/review-asset.webp" width="1600" height="1075" loading="lazy" alt="PAT-001 资产页及来源谱系：SPEC-001、TASK-002、test/slugify.test.js 和已解析的 commit hash" /></a><figcaption><b>Wiki 资产</b>：Spec → Task → Test → Commit 来源谱系，已解析为真实 commit hash。</figcaption></figure>
+          </div>
+          <div class="shot" role="tabpanel" id="p-search" aria-labelledby="t-search">
+            <figure><a href="../assets/review-search.webp" class="zoom"><img src="../assets/review-search.webp" width="1600" height="1075" loading="lazy" alt="搜索“nfkd”的结果：一条匹配的资产和一条匹配的任务" /></a><figcaption><b>搜索</b>：覆盖任务、资产、标签和来源 ID。</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="ui-notes">
+          <div class="ui-note"><b>只读</b>只接受 GET 和 HEAD 请求，从不写入你的项目。</div>
+          <div class="ui-note"><b>默认只绑定本机</b>绑定 <code>127.0.0.1</code>，并发送严格的安全响应头。</div>
+          <div class="ui-note"><b>零依赖</b>纯 Node ≥ 18，除了 Skill 目录什么都不用装。</div>
+          <div class="ui-note"><b>可重跑</b>每条命令都原样保存，你可以自己再跑一遍。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 个人 Wiki ============ -->
+    <section class="block" id="wiki" aria-labelledby="wiki-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">04</span> 个人 Wiki</span>
+          <h2 id="wiki-title">学到的东西留下来，连同它的出处。</h2>
+          <p>Evidence 说明跑了什么，Summary 说明发生了什么，Wiki 资产说明以后能复用什么、<em>哪些场景不适用</em>。个人索引则跨项目记录每条经验从哪来。</p>
+        </div>
+
+        <div class="layers">
+          <div class="layer"><span class="name"><i style="--o:.35"></i>Evidence</span><span class="q">跑了什么、结果如何？</span><code>.hepha/evidence/TASK-*.json</code></div>
+          <div class="layer"><span class="name"><i style="--o:.55"></i>Summary</span><span class="q">这一轮发生了什么？</span><code>.hepha/summary/YYYY-MM-DD/&lt;person&gt;/TASK-*.md</code></div>
+          <div class="layer"><span class="name"><i style="--o:.8"></i>Wiki 资产</span><span class="q">以后能复用什么，哪些场景不适用？</span><code>.hepha/wiki/assets/*.md</code></div>
+          <div class="layer"><span class="name"><i></i>个人索引</span><span class="q">这条经验从哪来，可信度如何？</span><code>~/.hepha/wiki/index.json</code></div>
+        </div>
+
+        <div class="sub split even">
+          <div class="prose">
+            <h3>可追溯的来源谱系</h3>
+            <p>资产带有 <code>source_specs</code>、<code>source_tasks</code>、<code>source_tests</code>、<code>source_commits</code> 四类来源。提交之前写 <code>source_commits: [self]</code>，<code>sync-personal</code> 会把它解析成最近一次改动该资产文件的提交 hash。示例中的 PAT-001 解析结果如下：</p>
+            <div class="lineage" aria-label="PAT-001 来源谱系">
+              <div class="lk"><span>Spec</span><b>SPEC-001</b></div>
+              <div class="lk"><span>Task</span><b>TASK-002</b></div>
+              <div class="lk"><span>Test</span><b>test/slugify.test.js</b></div>
+              <div class="lk"><span>Commit</span><b>self → 5a94717</b></div>
+            </div>
+          </div>
+          <div class="prose">
+            <h3>先审核，再复用</h3>
+            <p>结论先以候选的形式存在。<code>publish-asset</code> 发布前会校验 Schema 并检查敏感信息。标为 <code>project-confidential</code> 的资产不会离开项目。</p>
+            <div class="lifecycle" aria-label="资产生命周期">
+              <span>candidate</span>→<span>reviewed</span>→<span class="pub">published</span>→<span>stale</span>→<span>superseded</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 安装 ============ -->
+    <section class="block" id="install" aria-labelledby="install-title">
+      <div class="wrap">
+        <div class="install-layout">
+          <div class="install-intro">
+            <div class="section-head">
+              <span class="eyebrow"><span class="n">05</span> 快速开始</span>
+              <h2 id="install-title">克隆一次，链接 Skill，显式调用。</h2>
+              <p>Skill 不会被隐式触发，需要你显式调用。npm 包已经准备好，但<strong>还没有发布</strong>，所以请从 GitHub 安装。</p>
+            </div>
+            <ul class="notes">
+              <li><strong>只对单个项目生效（Claude Code）：</strong>把 <code>skills/hepha</code> 复制到项目的 <code>.claude/skills/</code> 并提交，团队成员也能用。</li>
+              <li><strong>守卫规则（可选，推荐）：</strong><code>rules/hepha-guard.mdc</code> 是硬性门禁的精简版。Claude Code 复制到 <code>.claude/rules/hepha-guard.md</code>，Cursor 放进 <code>.cursor/rules/</code>，Codex 写进 <code>AGENTS.md</code>。</li>
+              <li><strong>其他 Agent：</strong>只要能读 <code>SKILL.md</code>、能执行 shell 命令，就可以按这个协议工作；CLI 是纯 Node。</li>
+            </ul>
+          </div>
+          <div class="install-main">
+            <div class="tabs" role="tablist" aria-label="选择你的 Agent">
+              <button class="tab" role="tab" id="t-cc" aria-controls="p-cc" aria-selected="true">Claude Code</button>
+              <button class="tab" role="tab" id="t-cx" aria-controls="p-cx" aria-selected="false">Codex</button>
+            </div>
+
+            <div class="install-grid" role="tabpanel" id="p-cc" aria-labelledby="t-cc">
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">1</span>
+                <div>
+                  <h3>安装 Skill</h3>
+                  <p>个人级 Skill，对所有项目生效。</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="已复制"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">复制</span></button></div>
+<pre><code>git clone https://github.com/melonlee/hepha-skill.git
+cd hepha-skill
+mkdir -p ~/.claude/skills &amp;&amp; ln -s "$PWD/skills/hepha" ~/.claude/skills/hepha</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">2</span>
+                <div>
+                  <h3>让 Agent 运行它</h3>
+                  <p>Agent 会初始化 <code>.hepha/</code>，写 Spec 和通过校验的 backlog，然后每轮做一个任务。</p>
+                  <div class="code">
+                    <div class="code-head"><span>Claude Code 提示词</span><button class="copy" type="button" hidden data-copied="已复制"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">复制</span></button></div>
+<pre><code>/hepha 为订单页实现 CSV 导出。
+Spec 和 Summary 用中文；任何任务标记完成前先问我。</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">3</span>
+                <div>
+                  <h3>回看过程</h3>
+                  <p>打开 <code>http://localhost:3000</code>。服务是只读的，默认只绑定 <code>127.0.0.1</code>。</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="已复制"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">复制</span></button></div>
+<pre><code>node ~/.claude/skills/hepha/scripts/hepha-server.js --root . --port 3000</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="install-grid" role="tabpanel" id="p-cx" aria-labelledby="t-cx">
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">1</span>
+                <div>
+                  <h3>安装 Skill</h3>
+                  <p>Codex 用户级 Skill。</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="已复制"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">复制</span></button></div>
+<pre><code>git clone https://github.com/melonlee/hepha-skill.git
+cd hepha-skill
+mkdir -p ~/.agents/skills &amp;&amp; ln -s "$PWD/skills/hepha" ~/.agents/skills/hepha</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">2</span>
+                <div>
+                  <h3>让 Agent 运行它</h3>
+                  <p>Agent 会初始化 <code>.hepha/</code>，写 Spec 和通过校验的 backlog，然后每轮做一个任务。</p>
+                  <div class="code">
+                    <div class="code-head"><span>Codex 提示词</span><button class="copy" type="button" hidden data-copied="已复制"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">复制</span></button></div>
+<pre><code>$hepha 为订单页实现 CSV 导出。
+Spec 和 Summary 用中文；任何任务标记完成前先问我。</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="istep">
+                <span class="bubble" aria-hidden="true">3</span>
+                <div>
+                  <h3>回看过程</h3>
+                  <p>打开 <code>http://localhost:3000</code>。服务是只读的，默认只绑定 <code>127.0.0.1</code>。</p>
+                  <div class="code">
+                    <div class="code-head"><span>bash</span><button class="copy" type="button" hidden data-copied="已复制"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg><span class="label">复制</span></button></div>
+<pre><code>node ~/.agents/skills/hepha/scripts/hepha-server.js --root . --port 3000</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLI -->
+        <div class="sub" id="cli">
+          <h3>CLI 参考</h3>
+          <p class="sub-lede">在克隆的仓库里用 <code>node skills/hepha/scripts/hepha-cli.js &lt;command&gt;</code>。所有命令都支持 <code>--root &lt;项目目录&gt;</code>。环境变量：<code>HEPHA_PERSON</code>、<code>HEPHA_WIKI_ROOT</code>、<code>HEPHA_PORT</code>、<code>HEPHA_HOST</code>。</p>
+          <div class="table-wrap">
+            <table class="cli">
+              <thead><tr><th scope="col">命令</th><th scope="col">作用</th></tr></thead>
+              <tbody>
+                <tr><td><code>init --requirement "…" [--person NAME]</code></td><td>创建 <code>.hepha/</code>、manifest、空 backlog 和 Spec 起始文件</td></tr>
+                <tr><td><code>validate [--allow-empty]</code></td><td>校验 backlog Schema、Spec 引用、模式和依赖 DAG</td></tr>
+                <tr><td><code>record-check --task T --phase red|green|regression|lint|build|browser --command "…"</code></td><td>执行命令并记录退出码和输出；RED 必须失败，其余阶段必须通过</td></tr>
+                <tr><td><code>record-review --task T --type spec|code|human --status passed|failed|changes-requested</code></td><td>记录一次审查，可选 <code>--reviewer</code> 和 <code>--notes</code></td></tr>
+                <tr><td><code>transition --task T --to doing|review|done|blocked|skipped</code></td><td>门禁通过后变更状态</td></tr>
+                <tr><td><code>publish-asset --file .hepha/wiki/candidates/X.md [--reviewer N]</code></td><td>校验资产、检查敏感信息并发布</td></tr>
+                <tr><td><code>build-index</code></td><td>重建任务和资产索引</td></tr>
+                <tr><td><code>sync-personal [--wiki-root DIR]</code></td><td>把已发布、非机密的资产同步到个人 Wiki</td></tr>
+                <tr><td><code>version</code></td><td>输出版本号</td></tr>
+                <tr><td><code>hepha-server [--port 3000] [--host 127.0.0.1] [--wiki-root DIR]</code></td><td>只读的本地 Review 页面</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 对比 ============ -->
+    <section class="block" id="compare" aria-labelledby="compare-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">06</span> 对比</span>
+          <h2 id="compare-title">刻意收窄。</h2>
+          <p>Hepha 借鉴了 <a href="https://github.com/obra/superpowers">Superpowers</a> 和 <a href="https://github.com/github/spec-kit">Spec Kit</a> 推广的 Spec 先行与 TDD 纪律。三者都有价值，只是解决的问题不同。以下对比依据各自 2026 年 10 月的 README，如有不准确欢迎指正。</p>
+        </div>
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table class="compare stack">
+              <thead><tr><th scope="col"><span class="sr-only">维度</span></th><th scope="col"><a href="https://github.com/obra/superpowers">Superpowers</a></th><th scope="col"><a href="https://github.com/github/spec-kit">Spec Kit</a></th><th scope="col" class="hepha">Hepha</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">定位</th><td data-label="Superpowers">由一组可组合 Skill 构成的开发方法论（头脑风暴、计划、worktree、子代理开发、TDD、代码审查等）</td><td data-label="Spec Kit">开源工具包：Python CLI（<code>specify</code>）+ 模板 + Agent 命令，覆盖 SDD、修 bug、想法评估</td><td class="hepha" data-label="Hepha">一个交付 Skill + 一条守卫规则 + 零依赖 Node CLI</td></tr>
+                <tr><th scope="row">范围</th><td data-label="Superpowers">覆盖完整研发流程，支持众多 Agent</td><td data-label="Spec Kit">多种流程、多种 Agent；面向团队的扩展、预设、工作流和目录</td><td class="hepha" data-label="Hepha">刻意收窄：服务个人交付的一条循环</td></tr>
+                <tr><th scope="row">安装</th><td data-label="Superpowers">各 Agent 的插件市场</td><td data-label="Spec Kit"><code>uv tool install specify-cli</code></td><td class="hepha" data-label="Hepha">软链接或复制目录（npm 包已就绪，尚未发布）</td></tr>
+                <tr><th scope="row">约束落在哪里</th><td data-label="Superpowers">自动触发的 Skill 指令</td><td data-label="Spec Kit">命令、模板和可选的扩展门禁</td><td class="hepha" data-label="Hepha">CLI 状态机读取已记录的证据，缺失时以非零退出</td></tr>
+                <tr><th scope="row">测试证据</th><td data-label="Superpowers">TDD Skill：先看测试失败，再看通过</td><td data-label="Spec Kit">取决于所选流程和扩展</td><td class="hepha" data-label="Hepha">每个任务保存 RED/GREEN/regression 的命令、退出码和输出</td></tr>
+                <tr><th scope="row">知识沉淀</th><td data-label="Superpowers">设计文档与计划</td><td data-label="Spec Kit">Markdown 形式的 Spec、计划、任务</td><td class="hepha" data-label="Hepha">Summary + 审核过的 Wiki 资产，带 Spec/Task/Test/Commit 来源，可跨项目同步</td></tr>
+                <tr><th scope="row">回看入口</th><td data-label="Superpowers">Agent 会话 / PR</td><td data-label="Spec Kit">Agent 会话 / 生成的文档</td><td class="hepha" data-label="Hepha">本地只读 HTML：时间线、证据、搜索、谱系</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="guide"><strong>怎么选：</strong>想要一套覆盖面广、能自动触发、支持多种 Agent 的技能库，选 Superpowers；想在团队里推行可定制的 Spec 驱动流程，选 Spec Kit；想要一条小而可审计的循环，让“完成”意味着证据落盘，同时积累个人知识，选 Hepha。Hepha 也可以和前两者一起用。</p>
+      </div>
+    </section>
+
+    <!-- ============ 常见问题 ============ -->
+    <section class="block" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="n">07</span> 常见问题</span>
+          <h2 id="faq-title">常见疑问，直接回答。</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>会不会让 Agent 变慢？</summary>
+            <p>会慢一些：先写失败测试、记录两次审查都要花时间。lite 模式就是为不值得走全流程的小改动准备的。Hepha 适合“问题发现得晚，代价比多走几步更大”的工作。</p>
+          </details>
+          <details>
+            <summary>Agent 不能直接伪造证据吗？</summary>
+            <p><code>record-check</code> 自己执行命令、记录真实退出码，门禁读取的就是这些记录。但如果 Agent 铁了心直接改 JSON，没有任何东西能拦住它，所以证据的可信度取决于你的流程：守卫规则禁止手改证据，而记录里的每条命令你都可以重跑。Hepha 让偷工减料变得可见、成本更高，但做不到彻底杜绝。</p>
+          </details>
+          <details>
+            <summary>支持哪些 Agent？</summary>
+            <p>为 Claude Code 和 Codex 设计，两者都有原生的 Skill 目录。CLI 是纯 Node，任何能读 <code>SKILL.md</code>、能执行 shell 命令的 Agent 都可以按这个协议工作。</p>
+          </details>
+          <details>
+            <summary>为什么 CLI 提示和模板是中文？</summary>
+            <p>这个 Skill 最初是为中文团队设计的。Spec、Summary 和资产可以用任何语言写，仓库里的示例就是英文。CLI 提示的多语言化在计划中，欢迎 PR。</p>
+          </details>
+          <details>
+            <summary>它会自动提交或推送吗？</summary>
+            <p>Skill 要求按你批准的提交策略，一个任务一个小提交，默认需要人工批准。CLI 自己从不提交，只会调用两个只读的 git 命令：<code>git config user.name</code>（默认负责人名）和 <code>git log</code>（用来解析 <code>self</code> 提交引用）。</p>
+          </details>
+          <details>
+            <summary>数据会上传吗？</summary>
+            <p>不会。所有数据都在项目的 <code>.hepha/</code> 里；如果你执行了同步，还会写到 <code>~/.hepha/wiki</code>。Review 服务只绑定本机，只接受 GET/HEAD 请求，并发送严格的安全响应头。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 收尾 ============ -->
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrap">
+        <img class="mark" src="../assets/hepha-mark-dark.svg" alt="" width="64" height="64" />
+        <h2 id="closing-title">让“完成”意味着证据已经落盘。</h2>
+        <p>先把真实示例从头看到尾，或者直接安装 Skill，用这条循环交付你的下一个需求。</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#install">开始使用 <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn" href="https://github.com/melonlee/hepha-skill/tree/main/examples">真实示例</a>
+          <a class="btn btn-ghost" href="https://github.com/melonlee/hepha-skill">在 GitHub 上 Star <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div>
+        <a class="brand" href="./" aria-label="Hepha 首页"><img src="../assets/hepha-logo-dark.svg" alt="Hepha" width="78" height="22" /></a>
+        <p>Agent Skill + 零依赖 CLI，MIT 许可。由 FantasyAI Lab 的 Melon 打造：<a href="https://fantasyailab.com/">fantasyailab.com</a>。</p>
+      </div>
+      <nav aria-label="页脚">
+        <ul>
+          <li><a href="https://github.com/melonlee/hepha-skill">GitHub</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/tree/main/examples">真实示例</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/blob/main/skills/hepha/SKILL.md">SKILL.md</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/blob/main/CHANGELOG.md">更新日志</a></li>
+          <li><a href="https://github.com/melonlee/hepha-skill/blob/main/LICENSE">MIT 许可证</a></li>
+          <li><a href="../" hreflang="en" lang="en">English</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
