@@ -7,7 +7,9 @@ description: "Spec-driven, test-first delivery loop for large coding requirement
 
 把大需求转换为可验证、可审查、可追溯、可复用的连续交付循环：
 
-`澄清 -> Spec -> 计划 -> 研究 -> TDD 执行 -> 双审查 -> 沉淀 -> 批准 -> 提交`
+`SPEC -> PLAN -> RESEARCH -> RED -> GREEN -> REGRESSION -> REVIEW -> SUMMARY -> WIKI -> COMMIT`
+
+小而低风险的任务可以使用 lite 模式（见“任务模式”），只保留 Spec、RED/GREEN、code review 和提交。
 
 把 Markdown 作为人类阅读层，把 JSON 作为机器事实源。不要通过修改 Markdown 绕过机器门禁。
 
@@ -68,6 +70,7 @@ node <skill-root>/scripts/hepha-cli.js init --root . --requirement "<需求>"
 - `behavior_change`
 - 行为变更对应的 `test_plan.commands`
 - `knowledge.asset_policy`
+- 可选 `mode`：`full`（默认）或 `lite`
 
 编辑 `.hepha/backlog.json` 后执行：
 
@@ -76,6 +79,23 @@ node <skill-root>/scripts/hepha-cli.js validate --root .
 ```
 
 校验失败时不要进入执行。
+
+### 任务模式
+
+每个任务可选 `mode`，默认 `full`：
+
+| 门禁 | `full`（默认） | `lite` |
+|---|---|---|
+| Spec 引用 + Given/When/Then 验收 | 必需 | 必需 |
+| RED（失败）+ GREEN（通过） | 行为变更必需 | 行为变更必需 |
+| regression | 行为变更必需 | 不要求 |
+| Spec review | 必需 | 不要求 |
+| Code review | 必需 | 必需 |
+| 人工批准 | 按 `manifest.approval_required` | 按 `manifest.approval_required` |
+| Summary | 必需 | 不要求 |
+| Wiki 资产 | 按 `asset_policy` | 禁止（`asset_policy` 必须为 `none`） |
+
+`lite` 只允许 `risk: "low"` 且 `knowledge.asset_policy: "none"`，否则 validator 报错。适用于改文案、加小参数、修一个边界值这类改动；涉及架构、安全、数据迁移、跨模块行为或需要沉淀经验的任务一律使用 `full`。不要为了跳过门禁而降级：`mode` 属于任务契约，进入 `doing` 后修改会触发契约指纹失败。
 
 任务进入 `doing` 时 CLI 会固化契约指纹。执行期间不得静默修改验收条件、测试计划或资产策略来绕过门禁；必须阻塞并显式重新规划。
 
@@ -134,6 +154,8 @@ node <skill-root>/scripts/hepha-cli.js record-review --root . --task TASK-XXX --
 UI 或交互变更必须执行浏览器验证并把命令或步骤记录到 evidence 和 summary。
 
 ### 5. 沉淀
+
+`lite` 任务跳过本步骤和 Spec review、regression，直接进入第 6 步；仍需在提交信息中写清验收和测试命令。
 
 先写任务 summary，再判断是否形成长期资产：
 
@@ -222,6 +244,6 @@ node <skill-root>/scripts/hepha-server.js --root . --port 3000
 1. backlog 所有任务为 `done` 或有理由的 `skipped`。
 2. 需求级 Spec 完成条件满足。
 3. 最终相关测试、lint、构建和浏览器验证通过。
-4. Spec/code/human review 证据完整。
-5. Summary、个人资产和索引完整可读。
+4. 每个任务按其模式（full/lite）要求的审查证据完整。
+5. full 任务的 Summary、个人资产和索引完整可读。
 6. 本地页面能检索并展示本次交付谱系。

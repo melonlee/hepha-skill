@@ -12,12 +12,13 @@ alwaysApply: true
 1. 先写 Spec 和 Given/When/Then 验收条件，再执行代码任务。
 2. `.hepha/backlog.json` 是任务状态的机器事实源，修改后必须运行 validator。
 3. 一轮只执行一个 ready 任务，不改无关文件。
-4. 行为变更必须留下有效 RED、GREEN 和 regression 证据。
-5. Spec review 和 code review 必须分别通过。
+4. 行为变更必须留下有效 RED、GREEN 和 regression 证据（lite 任务不要求 regression）。
+5. Spec review 和 code review 必须分别通过（lite 任务只要求 code review）。
 6. UI/交互变更必须留下浏览器验证证据。
-7. 每轮必须生成 Summary，并满足任务的个人资产策略。
+7. 每轮必须生成 Summary，并满足任务的个人资产策略（lite 任务不要求 Summary）。
 8. 默认需要人工批准；只有 manifest 明确关闭时才允许无人值守完成。
 9. 门禁未通过时禁止把任务标记为 `done` 或提交。
+10. `mode: "lite"` 只用于 `risk: low` 且不产出资产的小任务；lite 仍需 Spec 引用、RED/GREEN 和 code review。禁止在执行中途把任务改成 lite 来绕过门禁。
 
 ## 资产边界
 

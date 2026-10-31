@@ -60,6 +60,7 @@
 - 行为变更必须有测试命令。
 - acceptance 必须使用稳定 ID 和 Given/When/Then。
 - `asset_policy` 只能是 `none`、`candidate`、`required`。
+- 可选 `mode` 只能是 `full`（默认）或 `lite`；`lite` 仅允许 `risk: "low"` 且 `asset_policy: "none"`。
 
 ## Evidence Schema
 
@@ -123,6 +124,8 @@ blocked -> todo | doing | skipped
 ```
 
 进入 `review` 前验证 TDD 证据。进入 `done` 前验证双审查、人工批准、Summary 和资产策略。
+
+`lite` 任务的门禁：行为变更需要 RED 和 GREEN（不要求 regression）；进入 `done` 需要 code review 和按 manifest 要求的人工批准，不要求 Spec review、Summary 和 Wiki 资产。
 
 任务进入 `doing` 时记录契约指纹。后续修改验收条件、测试计划、Spec 引用或资产策略会使门禁失败，必须显式重新规划。
 

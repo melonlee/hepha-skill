@@ -6,6 +6,9 @@ const path = require("node:path");
 const TASK_STATES = new Set(["todo", "doing", "review", "blocked", "done", "skipped"]);
 const RISKS = new Set(["low", "medium", "high"]);
 const ASSET_POLICIES = new Set(["none", "candidate", "required"]);
+// "full" runs the whole loop. "lite" is for small, low-risk tasks: it keeps Spec refs,
+// acceptance, RED/GREEN and code review, but skips regression, Spec review, Summary and Wiki gates.
+const TASK_MODES = new Set(["full", "lite"]);
 const ASSET_TYPES = new Set([
   "decision",
   "pattern",
@@ -139,6 +142,10 @@ function validateBacklog(backlog, options = {}) {
     }
     const policy = task.knowledge && task.knowledge.asset_policy;
     if (!ASSET_POLICIES.has(policy)) errors.push(`${prefix}: knowledge.asset_policy 非法`);
+    if (task.mode !== undefined && !TASK_MODES.has(task.mode)) errors.push(`${prefix}: mode 只能是 full 或 lite`);
+    if (task.mode === "lite" && (task.risk !== "low" || policy !== "none")) {
+      errors.push(`${prefix}: lite 模式仅允许 risk=low 且 knowledge.asset_policy=none`);
+    }
   }
 
   for (const task of backlog.tasks) {
@@ -267,18 +274,19 @@ function evaluateTransition({ root, task, to }) {
     if (evidence.task_contract_hash && evidence.task_contract_hash !== taskContractHash(task)) {
       errors.push("任务契约已变更；请将任务标记 blocked、记录原因并重新规划，不得静默降低门禁");
     }
+    const lite = taskMode(task) === "lite";
     if (task.behavior_change) {
       if (!evidence.checks.some((item) => item.phase === "red" && item.exit_code !== 0)) errors.push("缺少 RED 失败测试证据");
       if (!lastPassing(evidence.checks, "green")) errors.push("缺少 GREEN 通过测试证据");
-      if (!lastPassing(evidence.checks, "regression")) errors.push("缺少 regression 通过证据");
+      if (!lite && !lastPassing(evidence.checks, "regression")) errors.push("缺少 regression 通过证据");
     }
     if (to === "done") {
-      if (evidence.reviews.spec?.status !== "passed") errors.push("Spec review 未通过");
+      if (!lite && evidence.reviews.spec?.status !== "passed") errors.push("Spec review 未通过");
       if (evidence.reviews.code?.status !== "passed") errors.push("Code review 未通过");
       const manifestFile = hephaPaths(root).manifest;
       const manifest = fs.existsSync(manifestFile) ? readJson(manifestFile) : { approval_required: true };
       if (manifest.approval_required !== false && evidence.reviews.human?.status !== "passed") errors.push("缺少人工批准");
-      if (!findSummary(root, task.id)) errors.push("缺少任务 summary");
+      if (!lite && !findSummary(root, task.id)) errors.push("缺少任务 summary");
       const policy = task.knowledge?.asset_policy;
       if ((policy === "candidate" || policy === "required") && !findAssetForTask(root, task.id, policy === "required")) {
         errors.push(policy === "required" ? "缺少已发布个人资产" : "缺少资产候选");
@@ -286,6 +294,10 @@ function evaluateTransition({ root, task, to }) {
     }
   }
   return { ok: errors.length === 0, errors };
+}
+
+function taskMode(task) {
+  return task && task.mode === "lite" ? "lite" : "full";
 }
 
 function transitionTask({ root, taskId, to }) {
@@ -537,7 +549,7 @@ function renderBacklogMarkdown(paths, backlog) {
   const lines = ["# Hepha 任务 Backlog", "", `**需求**：${backlog.requirement || "-"}`, "", "机器事实源：`.hepha/backlog.json`。", "", "## 任务", ""];
   if (!backlog.tasks.length) lines.push("- 暂无任务");
   for (const task of backlog.tasks) {
-    lines.push(`### ${task.id}：${task.title}`, "", `- 状态：\`${task.state}\``, `- 风险：\`${task.risk}\``, `- Spec：${(task.spec_refs || []).join(", ") || "-"}`, `- 依赖：${(task.depends_on || []).join(", ") || "无"}`, "", "验收条件：", "");
+    lines.push(`### ${task.id}：${task.title}`, "", `- 状态：\`${task.state}\``, `- 风险：\`${task.risk}\``, `- 模式：\`${taskMode(task)}\``, `- Spec：${(task.spec_refs || []).join(", ") || "-"}`, `- 依赖：${(task.depends_on || []).join(", ") || "无"}`, "", "验收条件：", "");
     for (const item of task.acceptance || []) lines.push(`- ${item.id}：Given ${item.given}；When ${item.when}；Then ${item.then}`);
     lines.push("");
   }
@@ -675,6 +687,7 @@ function escapeYaml(value) {
 module.exports = {
   ASSET_POLICIES,
   ASSET_TYPES,
+  TASK_MODES,
   TASK_STATES,
   buildIndexes,
   containsSensitiveText,
@@ -696,6 +709,7 @@ module.exports = {
   summarizeAssets,
   syncPersonalWiki,
   taskContractHash,
+  taskMode,
   transitionTask,
   validateAsset,
   validateBacklog,
