@@ -271,7 +271,7 @@ Nowhere. Everything lives in `.hepha/` in your project and, if you sync, in `~/.
 - [Skill definition (`SKILL.md`)](./skills/hepha/SKILL.md) · [Guard rule](./rules/hepha-guard.mdc)
 - [Runtime schema](./skills/hepha/references/runtime-schema.md) · [Spec, TDD and role isolation](./skills/hepha/references/spec-tdd-sdd.md) · [Quality gates](./skills/hepha/references/validation_quality-gates.md)
 - [Personal Wiki and asset lifecycle](./skills/hepha/references/personal-wiki.md) · [Decomposition patterns](./skills/hepha/references/decomposition-patterns.md)
-- Website: see [`website/`](./website) (static, no build step; deploy notes in its README)
+- Website: <https://melonlee.github.io/hepha-skill/> (source in [`website/`](./website), static, auto-deployed to GitHub Pages on push to main)
 - [Changelog](./CHANGELOG.md) · [Brand assets](./docs/assets/brand) · [ClawHub page](https://clawhub.ai/melonlee/hepha-skill)
 
 ## Contributing
